@@ -35,7 +35,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a href="MasjidKuh/index.php" class="btn btn-outline-light btn-sm px-4 rounded-pill">
+                        <a href="login.php" class="btn btn-outline-light btn-sm px-4 rounded-pill">
                             <i class="bi bi-box-arrow-in-right me-1"></i> Login Admin
                         </a>
                     </li>
