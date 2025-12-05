@@ -1,13 +1,13 @@
 <?php
 include "config.php";
 
-// Logika Pencarian Sederhana
+
 $keyword = $_POST['keyword'] ?? '';
 if(!empty($keyword)){
-    // Cari berdasarkan keterangan
+
     $query_str = "SELECT * FROM transaksi WHERE keterangan LIKE '%$keyword%' ORDER BY tanggal DESC";
 } else {
-    // Tampilkan semua data urut tanggal terbaru
+
     $query_str = "SELECT * FROM transaksi ORDER BY tanggal DESC";
 }
 
@@ -67,18 +67,17 @@ $data = mysqli_query($konek, $query_str);
                   <?php
                   $no = 1;
                   while($d = mysqli_fetch_array($data)){
-                      // --- LOGIKA PENGGANTI JOIN (Sesuai Request) ---
-                      // Kita ambil kategori_id dari transaksi, lalu cari manual ke tabel sub_kategori
+
                       $id_kat = $d['kategori_id'];
                       
                       $q_kat = mysqli_query($konek, "SELECT * FROM sub_kategori WHERE id='$id_kat'");
                       $d_kat = mysqli_fetch_array($q_kat);
 
-                      // Ambil data dari tabel sub_kategori
+
                       $nama_kategori = $d_kat['nama_kategori']; 
-                      $jenis = $d_kat['jenis']; // 'masuk' atau 'keluar'
+                      $jenis = $d_kat['jenis']; 
                       
-                      // Styling Label Jenis
+
                       if($jenis == 'masuk'){
                           $badge = "<span class='badge bg-success'>Pemasukan</span>";
                       } else {
