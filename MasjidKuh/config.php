@@ -1,9 +1,7 @@
 <?php
 $konek = new mysqli("localhost", "root", "", "db_kas_masjid");
 
-if ($konek) {
-    //echo "Koneksi nyambung";
-} else {
-    echo "Koneksi gak nyambung";
+if ($konek->connect_error) {
+    die("Koneksi gagal: " . $konek->connect_error);
 }
 ?>

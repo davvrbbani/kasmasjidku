@@ -1,6 +1,3 @@
-<?php
-error_reporting(0);
-?>
 
 <!doctype html>
 <html lang="en">
@@ -183,6 +180,13 @@ error_reporting(0);
                 <a href="./?p=LP" class="nav-link">
                   <i class="nav-icon bi bi-circle-fill"></i>
                   <p>Laporan</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="./?p=TS" class="nav-link">
+                  <i class="nav-icon bi bi-circle-fill"></i>
+                  <p>Transaksi</p>
                 </a>
               </li>
 
