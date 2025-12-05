@@ -1,122 +1,142 @@
 <?php
-require_once "../config.php";
+include "config.php";
 $keyword = $_POST['keyword'] ?? '';
-$category = $_POST['category'] ?? '';
-if (empty($keyword)) {
-  $n=0;
-  $data=$konek->query("SELECT * FROM siakad order by nim limit 10");
-} else{
-  $n=0;
-  if($category==1){
-    $data=$konek->query("SELECT * FROM siakad where nim like '%$keyword%'");
-}elseif($category==2){
-    $data=$konek->query("SELECT * FROM siakad where nama like '%$keyword%'");
-}elseif($category==3){
-    $data=$konek->query("SELECT * FROM siakad where gender like '%$keyword%'");
-}elseif($category==4){
-  if($keyword=="INF"){
-  $keyword2="1";
-}elseif($keyword=="ARS"){
-  $keyword2="2";
+
+if(!empty($keyword)){
+    $query_str = "SELECT * FROM tabungan WHERE keterangan LIKE '%$keyword%' ORDER BY tanggal DESC";
+} else {
+    $query_str = "SELECT * FROM tabungan ORDER BY tanggal DESC";
 }
-  $data=$konek->query("SELECT * FROM siakad where prodi like '%$keyword2%'");
-}
+
+$data = mysqli_query($konek, $query_str);
+
+$q_saldo = mysqli_query($konek, "SELECT * FROM tabungan");
+$total_tabungan = 0;
+while($row = mysqli_fetch_array($q_saldo)){
+    if($row['jenis'] == 'setor'){
+        $total_tabungan += $row['jumlah'];
+    } else {
+        $total_tabungan -= $row['jumlah'];
+    }
 }
 ?>
-<!--begin::App Main-->
-      <main class="app-main">
-        <!--begin::App Content Header-->
-        <div class="app-content-header">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row">
-              <!--begin::Col-->
-              <div class="col-sm-6"><h3 class="mb-0">Dashboard Admin</h3></div>
-              <!--end::Col-->
-              <!--begin::Col-->
-              <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                  <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Data Mahasiswa</li>
-                </ol>
-              </div>
-              <!--end::Col-->
-            </div>
-            <!--end::Row-->
-          </div>
-          <!--end::Container-->
+
+<main class="app-main">
+  <div class="app-content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6"><h3 class="mb-0">Rekening / Tabungan Masjid</h3></div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-end">
+            <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Tabungan</li>
+          </ol>
         </div>
-        <!--end::App Content Header-->
-        <!--begin::App Content-->
-        <div class="app-content">
-          <!--begin::Container-->
-          <div class="container-fluid">
-            <!--begin::Row-->
-            <div class="row">
-              <!--begin::Col-->
-              <div class="col-12">
-                <!--begin::Card-->
-                <div class="card">
-                  <!--begin::Card Header-->
-                  <div class="card-header">
-                    <!--begin::Card Title-->
-                    <h3 class="card-title">Data Mahasiswa</h3>
-                    <!--end::Card Title-->
-                    <div class="d-flex justify-content-end mb-3">
-                    <a href="./?p=add-mahasiswa" button type="button" class="btn btn-success">Tambah Data</button></a>
-                    </div>
-                    <div>
-                    <form class="d-flex" role="search" method="POST" action="#">
-                    <input class="form-control me-2" type="text" placeholder="Search" aria-label="Search" name="keyword" style="width: 300px; display: inline-block;" value="<?=$keyword?>">
-                    <select class="category" aria-label="Default select example" name="category">
-                      <option value="#">-- Pilih Kategori --</option>
-                      <option value="1"<?php if($category==1) echo "selected";?>> NIM</option>
-                      <option value="2"<?php if($category==2) echo "selected";?>> Nama</option>
-                      <option value="3"<?php if($category==3) echo "selected";?>> Gender</option>
-                      <option value="4"<?php if($category==4) echo "selected";?>> Prodi</option>
-                    </select>
-                    <input class="btn btn-secondary btn-sm" type="reset" value="Reset" name="reset">
-                    <input class="btn btn-primary" type="submit" value="Search" name="search">
+      </div>
+    </div>
+  </div>
+
+  <div class="app-content">
+    <div class="container-fluid">
+      
+      <div class="row mb-3">
+          <div class="col-12">
+              <div class="alert alert-info d-flex align-items-center">
+                  <i class="bi bi-wallet2 fs-2 me-3"></i>
+                  <div>
+                      <h5 class="mb-0">Total Aset / Saldo Tabungan:</h5>
+                      <h2 class="mb-0 fw-bold">Rp. <?= number_format($total_tabungan, 0, ',', '.'); ?></h2>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Riwayat Setor & Tarik Tunai</h3>
+              
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                  <a href="tabungan_tambah.php" class="btn btn-success">
+                      <i class="bi bi-plus-circle"></i> Transaksi Tabungan
+                  </a>
+
+                  <form class="d-flex" method="POST" action="">
+                    <input class="form-control me-2" type="text" name="keyword" placeholder="Cari keterangan..." value="<?= $keyword ?>">
+                    <button class="btn btn-primary" type="submit">Cari</button>
+                    <a href="tabungan.php" class="btn btn-secondary ms-1">Reset</a>
                   </form>
-                    <!--begin::Card Toolbar-->
-                    <div class="card-tools">
-                    <table class="table table-stripped table-hover">
-                    <tr><th>No</th><th>NIM</th><th>Nama</th><th>Gender</th><th>Prodi</th><th>Tanggal</th><th>Option</th></tr>
-                    <?php
-                    $n = 0;
-                    foreach ($data as $d) {
-                      $n++;
-                      if($d['prodi']==1){
-                        $prodi="INF";
-                      }elseif($d['prodi']==2){
-                        $prodi="ARS";
-                      }
-                      else{
-                        $prodi="Tidak Di Ketahui";
-                      }
-                      echo "<tr><td>$n</td><td>$d[nim]</td><td>$d[nama]</td><td>$d[gender]</td><td>$prodi</td><td>$d[W]</td>
-                      <td>
-                      <a href='./?p=detail-mahasiswa&id={$d["id"]}' class='btn btn-sm btn-info'>Detail</a>
-                      <a href='./?p=edit-mahasiswa&id={$d["id"]}' class='btn btn-sm btn-warning'>Edit</a>
-                      <a href='./?p=hapus-mahasiswa&id={$d["id"]}' class='btn btn-sm btn-danger'>Hapus</a>
-                      </td></tr>";
-                    }
-                    ?>
-                  </table>
-                    <!--begin::Card Toolbar-->
-                    <div class="card-tools">
-                  <!--end::Card Footer-->
-           <!--end::Card Footer-->
-                </div>
-                <!--end::Card-->
               </div>
-              <!--end::Col-->
             </div>
-            <!--end::Row-->
+
+            <div class="card-body">
+              <table class="table table-bordered table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th width="5%">No</th>
+                    <th>Tanggal</th>
+                    <th>Keterangan</th>
+                    <th>Jenis Transaksi</th>
+                    <th>Debit (Masuk)</th>
+                    <th>Kredit (Keluar)</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                  $no = 1;
+                  while($d = mysqli_fetch_array($data)){
+                  ?>
+                  <tr>
+                    <td><?= $no++; ?></td>
+                    <td><?= date('d-m-Y', strtotime($d['tanggal'])); ?></td>
+                    <td><?= $d['keterangan']; ?></td>
+                    
+                    <td>
+                        <?php if($d['jenis'] == 'setor'){ ?>
+                            <span class="badge bg-success">Setor Tunai</span>
+                        <?php } else { ?>
+                            <span class="badge bg-danger">Penarikan</span>
+                        <?php } ?>
+                    </td>
+
+                    <td align="right" class="text-success fw-bold">
+                        <?php 
+                        if($d['jenis'] == 'setor'){
+                            echo "Rp. " . number_format($d['jumlah'], 0, ',', '.');
+                        } else {
+                            echo "-";
+                        }
+                        ?>
+                    </td>
+
+                    <td align="right" class="text-danger fw-bold">
+                        <?php 
+                        if($d['jenis'] == 'tarik'){
+                            echo "Rp. " . number_format($d['jumlah'], 0, ',', '.');
+                        } else {
+                            echo "-";
+                        }
+                        ?>
+                    </td>
+
+                    <td align="center">
+                      <a href="tabungan_edit.php?id=<?= $d['id']; ?>" class="btn btn-sm btn-warning">Edit</a>
+                      <a href="tabungan_hapus.php?id=<?= $d['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</a>
+                    </td>
+                  </tr>
+                  <?php } ?>
+                  
+                  <?php if(mysqli_num_rows($data) == 0): ?>
+                      <tr><td colspan="7" class="text-center">Belum ada riwayat tabungan.</td></tr>
+                  <?php endif; ?>
+                </tbody>
+              </table>
+            </div>
+            </div>
           </div>
-          <!--end::Container-->
-        </div>
-        <!--end::App Content-->
-      </main>
-      <!--end::App Main-->
+      </div>
+    </div>
+  </div>
+</main>

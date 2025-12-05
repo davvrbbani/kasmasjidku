@@ -177,13 +177,6 @@
               </li>
               
               <li class="nav-item">
-                <a href="./?p=LP" class="nav-link">
-                  <i class="nav-icon bi bi-circle-fill"></i>
-                  <p>Laporan</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
                 <a href="./?p=TS" class="nav-link">
                   <i class="nav-icon bi bi-circle-fill"></i>
                   <p>Transaksi</p>
@@ -191,55 +184,12 @@
               </li>
 
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="./?p=LP" class="nav-link">
                   <i class="nav-icon bi bi-circle-fill"></i>
-                  <p>
-                    Option Masjid Kuh 
-                    <i class="nav-arrow bi bi-chevron-right"></i>
-                  </p>
+                  <p>Laporan</p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Level 2</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>
-                        Level 2
-                        <i class="nav-arrow bi bi-chevron-right"></i>
-                      </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                      <li class="nav-item">
-                        <a href="#" class="nav-link">
-                          <i class="nav-icon bi bi-record-circle-fill"></i>
-                          <p>Level 3</p>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a href="#" class="nav-link">
-                          <i class="nav-icon bi bi-record-circle-fill"></i>
-                          <p>Level 3</p>
-                        </a>
-                      </li>
-                      <li class="nav-item">
-                        <a href="#" class="nav-link">
-                          <i class="nav-icon bi bi-record-circle-fill"></i>
-                          <p>Level 3</p>
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>Level 2</p>
-                    </a>
-                  </li>
+              </li>
+              
                 </ul>
               </li>
             </ul>
