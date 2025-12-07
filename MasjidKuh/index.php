@@ -60,9 +60,9 @@ if (!isset(($_SESSION['user'])) or $_SESSION['level'] != 'admin'){
     />
     <!--end::Third Party Plugin(Bootstrap Icons)-->
     <!--begin::Required Plugin(AdminLTE)-->
-    <link rel="stylesheet" href="..\assets\css\adminlte.css" />
+    <link rel="stylesheet" href="../assets/css/adminlte.css" />
     <!--end::Required Plugin(AdminLTE)-->
-    <link rel="icon" type="images/jpg" href="assets\img\Masjid logo.jpeg">
+    <link rel="icon" type="images/jpg" href="../assets/img/Masjid logo.jpeg">
 
   </head>
   <!--end::Head-->
@@ -101,7 +101,7 @@ if (!isset(($_SESSION['user'])) or $_SESSION['level'] != 'admin'){
             <li class="nav-item dropdown user-menu">
               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 <img
-                  src="assets\img\alhaytam.jpeg"
+                  src="../assets/img/alhaytam.jpeg"
                   class="user-image rounded-circle shadow"
                   alt="User Image"
                 />
@@ -111,7 +111,7 @@ if (!isset(($_SESSION['user'])) or $_SESSION['level'] != 'admin'){
                 <!--begin::User Image-->
                 <li class="user-header text-bg-success">
                   <img
-                    src="assets\img\alhaytam.jpeg"
+                    src="../assets/img/alhaytam.jpeg"
                     class="rounded-circle shadow"
                     alt="User Image"
                   />
@@ -150,10 +150,10 @@ if (!isset(($_SESSION['user'])) or $_SESSION['level'] != 'admin'){
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand">
           <!--begin::Brand Link-->
-          <a href="./index.php" class="brand-link">
+          <a href="../index.php" class="brand-link">
             <!--begin::Brand Image-->
             <img
-              src="assets\img\Masjid logo.jpeg"
+              src="../assets/img/Masjid logo.jpeg"
               alt="AdminLTE Logo"
               class="brand-image opacity-75 shadow"
             />
@@ -229,7 +229,7 @@ if (!isset(($_SESSION['user'])) or $_SESSION['level'] != 'admin'){
       crossorigin="anonymous"
     ></script>
     <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
-    <script src="..\assets\js\adminlte.js"></script>
+    <script src="../assets/js/adminlte.js"></script>
     <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
     <!--end::OverlayScrollbars Configure-->
     <!--end::Script-->

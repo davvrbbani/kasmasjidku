@@ -11,8 +11,11 @@ switch ($p) {
     case 'TS':
         require_once "Transaksi/transaksi.php";
     break;
+    case 'add_tr':
+        require_once "Transaksi/tambah_transaksi.php";
+        break;
     default:
     require_once "dashboard.php";
     break;
-
 }
+?>

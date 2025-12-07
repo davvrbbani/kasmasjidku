@@ -35,25 +35,29 @@ $data = mysqli_query($konek, $query_str);
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Data Pemasukan & Pengeluaran</h3>
+              <h3 class="card-title" style="font-weight: bold;">Data Pemasukan & Pengeluaran</h3>
               
-              <div class="d-flex justify-content-between align-items-center mt-3">
-                  <a href="transaksi_tambah.php" class="btn btn-success">
+              <table class="table table-borderless mb-0 mt-3">
+                <tr>
+              <div class="d-flex justify-content-end align-items-right mt-2">
+                  <a href="./?p=add_tr" class="btn btn-success">
                       <i class="bi bi-plus-circle"></i> Tambah Transaksi
                   </a>
 
-                  <form class="d-flex" method="POST" action="">
-                    <input class="form-control me-2" type="text" name="keyword" placeholder="Cari keterangan..." value="<?= $keyword ?>">
+                  <form class="d-flex" method="POST" action="#">
+                    <input style="width: 250px" class="form-control me-2" type="text" name="keyword" placeholder="Cari keterangan..." value="<?= $keyword ?>">
                     <button class="btn btn-primary" type="submit">Cari</button>
                     <a href="transaksi.php" class="btn btn-secondary ms-1">Reset</a>
                   </form>
               </div>
+                </tr>
+              </table>
             </div>
 
             <div class="card-body">
               <table class="table table-bordered table-hover table-striped">
                 <thead>
-                  <tr>
+                  <tr style="text-align: center;">
                     <th width="5%">No</th>
                     <th>Tanggal</th>
                     <th>Kategori</th>
@@ -84,14 +88,14 @@ $data = mysqli_query($konek, $query_str);
                           $badge = "<span class='badge bg-danger'>Pengeluaran</span>";
                       }
                   ?>
-                  <tr>
+                  <tr style="text-align: center;">
                     <td><?= $no++; ?></td>
                     <td><?= date('d-m-Y', strtotime($d['tanggal'])); ?></td>
                     <td><?= $nama_kategori; ?></td>
                     <td><?= $badge; ?></td>
                     <td><?= $d['keterangan']; ?></td>
-                    <td align="right">Rp. <?= number_format($d['jumlah'], 0, ',', '.'); ?></td>
-                    <td align="center">
+                    <td>Rp. <?= number_format($d['jumlah'], 0, ',', '.'); ?></td>
+                    <td>
                       <a href="transaksi_edit.php?id=<?= $d['id']; ?>" class="btn btn-sm btn-warning">Edit</a>
                       <a href="transaksi_hapus.php?id=<?= $d['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</a>
                     </td>
@@ -109,4 +113,4 @@ $data = mysqli_query($konek, $query_str);
       </div>
     </div>
   </div>
-</main>
+</main> 

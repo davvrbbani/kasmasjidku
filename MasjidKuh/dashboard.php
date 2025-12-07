@@ -6,13 +6,13 @@
             <!--begin::Row-->
             <div class="row">
               <!--begin::Col-->
-              <div class="col-sm-6"><h3 class="mb-0">Theme Customize</h3></div>
+              <div class="col-sm-6"><h3 class="mb-0">Grafik</h3></div>
               <!--end::Col-->
               <!--begin::Col-->
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                   <li class="breadcrumb-item"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Theme Customize</li>
+                  <li class="breadcrumb-item active" aria-current="page">Grafik</li>
                 </ol>
               </div>
               <!--end::Col-->

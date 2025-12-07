@@ -50,7 +50,7 @@ session_start();
 
       <form action="#" method="post">
         <div class="input-group mb-3">
-          <input type="username" class="form-control" name="user" placeholder="Username or email address" required>
+          <input type="username" class="form-control" name="user" placeholder="Username" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="bi bi-person-fill"></span>
