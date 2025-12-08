@@ -7,14 +7,14 @@ $total_keluar = 0;
 $saldo_akhir  = 0;
 
 
-$q_transaksi = mysqli_query($konek, "SELECT * FROM transaksi");
+$q_transaksi = $konek->query("SELECT * FROM transaksi");
 
 while ($t = mysqli_fetch_array($q_transaksi)) {
 
     $id_sub = $t['sub_kategori_id'];
     $jumlah = $t['jumlah'];
 
-    $q_cek_jenis = mysqli_query($konek, "SELECT jenis FROM sub_kategori WHERE id='$id_sub'"); 
+    $q_cek_jenis = $konek->query("SELECT jenis FROM sub_kategori WHERE id='$id_sub'"); 
     $d_jenis = mysqli_fetch_array($q_cek_jenis);
 
 
@@ -27,7 +27,7 @@ while ($t = mysqli_fetch_array($q_transaksi)) {
 
 $saldo_akhir = $total_masuk - $total_keluar;
 
-$q_tab = mysqli_query($konek, "SELECT * FROM tabungan"); 
+$q_tab = $konek->query("SELECT * FROM tabungan"); 
 $saldo_tabungan = 0;
 while($tb = mysqli_fetch_array($q_tab)){
     if($tb['jenis'] == 'setor'){

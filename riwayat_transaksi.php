@@ -9,8 +9,8 @@ if ($page < 1) $page = 1;
 $limit = 25; 
 $offset = ($page - 1) * $limit;
 
-$query_transaksi = mysqli_query($konek, "SELECT * FROM transaksi LIMIT $limit OFFSET $offset");
-$query_total = mysqli_query($konek, "SELECT COUNT(*) as total FROM transaksi");
+$query_transaksi = $konek->query("SELECT * FROM transaksi LIMIT $limit OFFSET $offset");
+$query_total = $konek->query("SELECT COUNT(*) as total FROM transaksi");
 $data_total = mysqli_fetch_array($query_total);
 
 $total_transaksi = $data_total['total'];
@@ -68,7 +68,7 @@ $total_pages = ceil($total_transaksi/$limit);
                                     }
                                     while($row = mysqli_fetch_array($query_transaksi)){
                                     $id_kat = $row['sub_kategori_id'];
-                                    $q_kat = mysqli_query($konek, "SELECT * FROM sub_kategori WHERE id='$id_kat'");
+                                    $q_kat = $konek->query("SELECT * FROM sub_kategori WHERE id='$id_kat'");
                                     $d_kat = mysqli_fetch_array($q_kat);
                                     ?>
 
