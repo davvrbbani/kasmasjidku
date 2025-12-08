@@ -32,10 +32,13 @@ if (isset($_POST['keyword'])) {
               <table class="table table-borderless mb-0 mt-3">
                 <tr>
                 <div class="d-flex justify-content-end align-items-right mt-2">
+<<<<<<< HEAD
                     <a href="./?p=add_kt" class="btn btn-success">
                         <i class="bi bi-plus-circle"></i> Tambah Kategori
                     </a>
 
+=======
+>>>>>>> 0137569fd8ce35368d157dc8df424e633fcc727d
                     <form class="d-flex" method="POST" action="#">
                     <input style="width: 250px" class="form-control me-2" type="text" name="keyword" placeholder="Cari keterangan..." value="<?= $keyword ?>">
                     <button class="btn btn-primary" type="submit">Cari</button>
@@ -45,6 +48,12 @@ if (isset($_POST['keyword'])) {
                 </table>
             </div>
             <div class="card-body">
+                    <a href="./?p=add_ktgr" class="btn btn-success">
+                        <i class="bi bi-plus-circle"></i> Tambah Kategori
+                    </a>
+                    <a href="./?p=add_sub" class="btn btn-success">
+                        <i class="bi bi-plus-circle"></i> Tambah Sub Kategori
+                    </a>
                 <table class="table table-bordered table-hover table-striped">
                     <thead>
                     <tr style="text-align: center;">
@@ -55,6 +64,7 @@ if (isset($_POST['keyword'])) {
                         <th>Aksi</th>
                     </tr>
                     </thead>
+<<<<<<< HEAD
                     <tbody>
                     <?php
                     $no = 1;
@@ -83,6 +93,47 @@ if (isset($_POST['keyword'])) {
                     </tr>
                     <?php } ?>
                     </tbody>
+=======
+                      <tbody>
+                          <?php
+                          $no = 1;
+                          $data = $konek->query("SELECT * FROM kategori ORDER BY id ASC");
+                          while($d = mysqli_fetch_array($data)){ 
+                              $id_kategori = $d['id'];
+                              $nama_kategori = $d['nama_kategori'];
+
+                              $q_sub = mysqli_query($konek, "SELECT * FROM sub_kategori WHERE kategori_id='$id_kategori'");
+                              $cek_sub = mysqli_num_rows($q_sub);
+                              if ($cek_sub > 0)
+                                  while ($sub = mysqli_fetch_array($q_sub)) { 
+                          ?>
+                                  <tr>
+                                      <td><?= $no++; ?></td>
+                                      <td><?= $nama_kategori; ?></td> 
+                                      <td><?= $sub['nama_sub_kategori']; ?></td> 
+                                      <td style="text-align: center;"><?= ucfirst($sub['jenis']); ?></td>
+                                      <td style="text-align: center;">
+                                          <a href="./?p=edit_kat&id=<?= $sub['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                          <a href="./?p=hps_kat&id=<?= $sub['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Hapus?')">Hapus</a>
+                                      </td>
+                                  </tr>
+                          <?php
+                                  
+                              } else {
+                          ?>
+                                  <tr>
+                                      <td><?= $no++; ?></td>
+                                      <td><?= $nama_kategori; ?></td>
+                                      <td class="text-danger"> - (Kosong) </td> 
+                                      <td style="text-align: center;"> - </td>
+                                      <td style="text-align: center;"> - </td>
+                                  </tr>
+                          <?php
+                              } 
+                            }
+                          ?>
+                      </tbody>
+>>>>>>> 0137569fd8ce35368d157dc8df424e633fcc727d
                 </table>
             </div>
             </div>
