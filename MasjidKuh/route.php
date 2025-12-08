@@ -38,6 +38,12 @@ switch ($p) {
     case 'add_sub':
         require_once "Kategori/add_sub.php";
         break;
+    case 'edit_kat':
+        require_once "Kategori/edit_kategori.php";
+        break;
+    case 'hps_kat':
+        require_once "Kategori/hps_kategori.php";
+        break;
     default:
     require_once "dashboard.php";
     break;

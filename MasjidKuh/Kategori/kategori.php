@@ -76,8 +76,8 @@ if (isset($_POST['keyword'])) {
                                       <td><?= $sub['nama_sub_kategori']; ?></td> 
                                       <td style="text-align: center;"><?= ucfirst($sub['jenis']); ?></td>
                                       <td style="text-align: center;">
-                                          <a href="kategori_edit.php?id=<?= $sub['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                          <a href="kategori_hapus.php?id=<?= $sub['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Hapus?')">Hapus</a>
+                                          <a href="./?p=edit_kat&id=<?= $sub['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                          <a href="./?p=hps_kat&id=<?= $sub['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Hapus?')">Hapus</a>
                                       </td>
                                   </tr>
                           <?php
