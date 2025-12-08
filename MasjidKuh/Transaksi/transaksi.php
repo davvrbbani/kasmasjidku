@@ -97,7 +97,7 @@ $data = mysqli_query($konek, $query_str);
                     <td>Rp. <?= number_format($d['jumlah'], 0, ',', '.'); ?></td>
                     <td>
                       <a href="transaksi_edit.php?id=<?= $d['id']; ?>" class="btn btn-sm btn-warning">Edit</a>
-                      <a href="transaksi_hapus.php?id=<?= $d['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</a>
+                      <a href="./?p=hps_tr&id=<?= $d['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</a>
                     </td>
                   </tr>
                   <?php } ?>

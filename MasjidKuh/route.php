@@ -14,6 +14,9 @@ switch ($p) {
     case 'add_tr':
         require_once "Transaksi/add_transaksi.php";
         break;
+    case 'hps_tr':
+        require_once "Transaksi/hapus_transaksi.php";
+        break;
     case 'KT':
         require_once "Kategori/kategori.php";
         break;
