@@ -95,11 +95,11 @@ $user_id = $_SESSION['users_id'];
                 </tr>
                 <tr>
                     <td>Keterangan</td>
-                    <td><input type="text" name="keterangan" value="" class="form-control" value="<?= $keterangan ?>"></td>
+                    <td><input type="text" name="keterangan" placeholder="Masukkan keterangan" value="" class="form-control" value="<?= $keterangan ?>"></td>
                 </tr>
                 <tr>
                     <td>Jumlah (Rp)</td>
-                    <td><input type="number" name="jumlah" value="" class="form-control" value="<?= $jumlah ?>"></td>
+                    <td><input type="number" name="jumlah" placeholder="Masukkan Jumlah dalam Rp" value="" class="form-control" value="<?= $jumlah ?>"></td>
                 </tr>
                 <tr>
                     <td><input type="submit" name="simpan" value=Simpan class="btn btn-primary mt-3">
