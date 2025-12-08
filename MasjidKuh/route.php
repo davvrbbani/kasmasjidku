@@ -14,6 +14,9 @@ switch ($p) {
     case 'edit_tm':
         require_once "Tabungan/edit_tabungan.php";
         break;
+    case 'hapus_tm':
+        require_once "Tabungan/hapus_tabungan.php";
+        break;
     case 'TS':
         require_once "Transaksi/transaksi.php";
     break;
