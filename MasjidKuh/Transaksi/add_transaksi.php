@@ -32,8 +32,9 @@ $user_id = $_SESSION['users_id'];
           <div class="card">
             <div class="card-header">
               <h3 class="card-title" style="font-weight: bold;">Tambah Transaksi</h3>
-              <button class="btn btn-secondary btn-md float-end" onclick="history.back()">
+              <a href="./?p=TS" class="btn btn-secondary btn-md float-end">
                 <i class="bi bi-arrow-left-circle"></i> Kembali
+              </a>
             </div>
             <div class="card-body">
               <?php
@@ -43,18 +44,22 @@ $user_id = $_SESSION['users_id'];
               $keterangan = $_POST['keterangan'];
               $jumlah = $_POST['jumlah'];
 
-              $sql = "INSERT INTO transaksi (tanggal, sub_kategori_id, keterangan, jumlah, users_id)
+              if (empty($subkategori)){
+                echo '<div class ="alert alert-warning">Harap Pilih <b>Sub Kategori</b>Terlebih Dahulu!</div>';
+              } else{
+              $sql = "INSERT INTO transaksi (tanggal, kategori_id, keterangan, jumlah, users_id)
                       VALUES ('$tanggal', '$subkategori', '$keterangan', '$jumlah', '$user_id')";
 
               $simpan = $konek->query($sql);
-
+              
               if($simpan){
                   echo "<div class='alert alert-success'>Data transaksi berhasil disimpan.
                   <a href='./?p=TS'>Lihat Data</a></div>";
                   
               } else {
                   echo '<div class="alert alert-danger">Data transaksi gagal disimpan.</div>';
-              }
+                  }
+                }
               }
               ?>
               <form method="POST" action="#">
@@ -86,7 +91,7 @@ $user_id = $_SESSION['users_id'];
                         foreach($sub as $s): ?>
                       <option 
                         value="<?= $s['id']; ?>"
-                        data-kat="<?= $s['kategori_id']; ?>">
+                        data-kat="<?= $s['induk_id']; ?>">
                         <?= $s['nama_sub_kategori']; ?>
                       </option>
                       <?php endforeach;
