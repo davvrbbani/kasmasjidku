@@ -46,8 +46,11 @@ $user_id = $_SESSION['users_id'];
 
               if (empty($subkategori)){
                 echo '<div class ="alert alert-warning">Harap Pilih <b>Sub Kategori</b>Terlebih Dahulu!</div>';
-              } else{
-              $sql = "INSERT INTO transaksi (tanggal, kategori_id, keterangan, jumlah, users_id)
+              } elseif(empty($tanggal)) {
+                echo '<div class ="alert alert-warning">Harap Isi <b>Tanggal</b>Terlebih Dahulu!</div>';                
+              }
+              else{
+              $sql = "INSERT INTO transaksi (tanggal, sub_kategori_id, keterangan, jumlah, users_id)
                       VALUES ('$tanggal', '$subkategori', '$keterangan', '$jumlah', '$user_id')";
 
               $simpan = $konek->query($sql);
@@ -91,7 +94,7 @@ $user_id = $_SESSION['users_id'];
                         foreach($sub as $s): ?>
                       <option 
                         value="<?= $s['id']; ?>"
-                        data-kat="<?= $s['induk_id']; ?>">
+                        data-kat="<?= $s['kategori_id']; ?>">
                         <?= $s['nama_sub_kategori']; ?>
                       </option>
                       <?php endforeach;
