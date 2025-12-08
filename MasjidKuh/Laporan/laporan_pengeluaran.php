@@ -1,7 +1,6 @@
 <?php
 include "../config.php";
 
-// Default tanggal: Awal bulan ini sampai hari ini
 $tgl_awal  = $_POST['tgl_awal'] ?? date('Y-m-01');
 $tgl_akhir = $_POST['tgl_akhir'] ?? date('Y-m-d');
 ?>
