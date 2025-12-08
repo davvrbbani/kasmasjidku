@@ -125,7 +125,7 @@ while($row = mysqli_fetch_array($q_saldo)){
                     <td align="center">
                       <!-- Pilih versi yang folder-nya benar -->
                       <a href="?p=edit_tm&id=<?= $d['id']; ?>" class="btn btn-sm btn-warning">Edit</a>
-                      <a href="?p=&id=<?= $d['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</a>
+                      <a href="?p=hapus_tm&id=<?= $d['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</a>
                     </td>
                   </tr>
                   <?php } ?>
