@@ -74,7 +74,7 @@ $total_pages = ceil($total_transaksi/$limit);
 
                                     <tr>
                                         <td><?php echo date('d-m-Y', strtotime($row['tanggal']));?></td>
-                                        <td><?php echo $d_kat['nama_kategori'];?></td>
+                                        <td><?php echo $d_kat['nama_sub_kategori'];?></td>
                                         <td>
                                         <?php 
                                         if ($d_kat['jenis'] == 'masuk'){

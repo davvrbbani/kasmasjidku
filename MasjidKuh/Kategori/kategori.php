@@ -50,13 +50,13 @@ require_once "../config.php";
                     $no = 1;
                     $data = $konek ->query("SELECT * FROM sub_kategori ORDER BY id ASC");
                     foreach(($data) as $d){
-                        if($d['kategori_id'] == 1){
+                        if($d['induk_id'] == 1){
                             $induk = "Pemasukan Rutin";
-                        } elseif ($d['kategori_id'] == 2){
+                        } elseif ($d['induk_id'] == 2){
                             $induk = "Operasional Masjid";
-                        } elseif ($d['kategori_id'] == 3){
+                        } elseif ($d['induk_id'] == 3){
                             $induk = "Pembangunan & Renovasi";
-                        } elseif ($d['kategori_id'] == 4){
+                        } elseif ($d['induk_id'] == 4){
                             $induk = "Kegiatan Ibadah";
                         }     
                     ?>
