@@ -55,9 +55,9 @@ while($row = mysqli_fetch_array($q_saldo)){
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Riwayat Setor & Tarik Tunai</h3>
+              <h3 class="card-title" style="font-weight: bold">Riwayat Setor & Tarik Tunai</h3>
 
-              <div class="d-flex justify-content-between align-items-center mt-3">
+              <div class="d-flex justify-content-end align-items-center mt-3">
                   
                   <a href="?p=add_tm" class="btn btn-success">
                       <i class="bi bi-plus-circle"></i> Transaksi Tabungan
@@ -66,7 +66,7 @@ while($row = mysqli_fetch_array($q_saldo)){
                   <form class="d-flex" method="POST" action="">
                     <input class="form-control me-2" type="text" name="keyword" placeholder="Cari keterangan..." value="<?= $keyword ?>">
                     <button class="btn btn-primary" type="submit">Cari</button>
-                    <a href="tabungan.php" class="btn btn-secondary ms-1">Reset</a>
+                    <a href="#" class="btn btn-secondary ms-1">Reset</a>
                   </form>
               </div>
             </div>
