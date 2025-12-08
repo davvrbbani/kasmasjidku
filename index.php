@@ -130,7 +130,7 @@ $saldo_akhir = $total_masuk - $total_keluar;
                                         $id = $t['sub_kategori_id'];
                                         $q_kat = mysqli_query($konek, "SELECT * FROM sub_kategori WHERE id='$id'");
                                         $kat   = mysqli_fetch_array($q_kat);
-                                        $nama  = $kat['nama_sub_kategori'];
+                                        $nama  = $kat['nama_sub_kategori']; 
                                         $jenis = $kat['jenis'];
                                     ?>
                                     <tr>

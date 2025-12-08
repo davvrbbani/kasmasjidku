@@ -67,7 +67,7 @@ $total_pages = ceil($total_transaksi/$limit);
                                         echo "<tr><td colspan='4' class='text-center'>Tidak Ada Data Transaksi</td></tr>";
                                     }
                                     while($row = mysqli_fetch_array($query_transaksi)){
-                                    $id_kat = $row['kategori_id'];
+                                    $id_kat = $row['sub_kategori_id'];
                                     $q_kat = mysqli_query($konek, "SELECT * FROM sub_kategori WHERE id='$id_kat'");
                                     $d_kat = mysqli_fetch_array($q_kat);
                                     ?>
