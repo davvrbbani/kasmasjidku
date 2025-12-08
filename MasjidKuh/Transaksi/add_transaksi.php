@@ -69,12 +69,12 @@ $user_id = $_SESSION['users_id'];
                 <table class="table table-borderless table-striped" style="width: 500px;">
                 <tr>
                     <td>Tanggal</td>
-                    <td><input type="date" name="tanggal" class="form-control" value="<?= $tanggal ?>"></td>
+                    <td><input type="date" name="tanggal" class="form-control" value="<?= $tanggal ?>" required></td>
                 </tr>
                 <tr>
                     <td>Kategori</td>
                     <td>
-                    <select class="form-control" name="kategori">  
+                    <select class="form-control" name="kategori" required>  
                       <option value="">Pilih Kategori</option>
                         <?php
                         $kategori = $konek ->query("SELECT * FROM kategori ORDER BY id ASC");
@@ -87,7 +87,7 @@ $user_id = $_SESSION['users_id'];
                 <tr>
                     <td>Sub Kategori</td>
                     <td>
-                    <select class="form-control" name="subkategori">  
+                    <select class="form-control" name="subkategori" required>  
                       <option value="">Pilih Sub Kategori</option>
                         <?php
                         $sub = $konek ->query("SELECT * FROM sub_kategori ORDER BY id ASC");
@@ -103,11 +103,11 @@ $user_id = $_SESSION['users_id'];
                 </tr>
                 <tr>
                     <td>Keterangan</td>
-                    <td><input type="text" name="keterangan" placeholder="Masukkan keterangan" value="" class="form-control" value="<?= $keterangan ?>"></td>
+                    <td><input type="text" name="keterangan" placeholder="Masukkan keterangan" value="" class="form-control" value="<?= $keterangan ?>" required></td>
                 </tr>
                 <tr>
                     <td>Jumlah (Rp)</td>
-                    <td><input type="number" name="jumlah" placeholder="Masukkan Jumlah dalam Rp" value="" class="form-control" value="<?= $jumlah ?>"></td>
+                    <td><input type="number" name="jumlah" placeholder="Masukkan Jumlah dalam Rp" value="" class="form-control" value="<?= $jumlah ?>" required></td>
                 </tr>
                 <tr>
                     <td><input type="submit" name="simpan" value=Simpan class="btn btn-primary mt-3">
