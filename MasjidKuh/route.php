@@ -20,6 +20,9 @@ switch ($p) {
     case 'add_tr':
         require_once "Transaksi/add_transaksi.php";
         break;
+    case 'edit_tr':
+        require_once "Transaksi/edit_transaksi.php";
+        break;
     case 'hps_tr':
         require_once "Transaksi/hapus_transaksi.php";
         break;

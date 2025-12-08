@@ -1,17 +1,11 @@
 <?php
 include "../config.php";
 
-
 $keyword = $_POST['keyword'] ?? '';
-if(!empty($keyword)){
-
-    $query_str = "SELECT * FROM transaksi WHERE keterangan LIKE '%$keyword%' ORDER BY tanggal DESC";
-} else {
-
-    $query_str = "SELECT * FROM transaksi ORDER BY tanggal DESC";
+if(empty($keyword)){
+  $data = $konek->query("SELECT * FROM transaksi ORDER BY tanggal limit 10");
+}else{$data = $konek->query ("SELECT * FROM transaksi WHERE keterangan LIKE '%$keyword%'");
 }
-
-$data = mysqli_query($konek, $query_str);
 ?>
 
 <main class="app-main">
@@ -96,7 +90,7 @@ $data = mysqli_query($konek, $query_str);
                     <td><?= $d['keterangan']; ?></td>
                     <td>Rp. <?= number_format($d['jumlah'], 0, ',', '.'); ?></td>
                     <td>
-                      <a href="transaksi_edit.php?id=<?= $d['id']; ?>" class="btn btn-sm btn-warning">Edit</a>
+                      <a href="./?p=edit_tr&id=<?= $d['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
                       <a href="./?p=hps_tr&id=<?= $d['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</a>
                     </td>
                   </tr>

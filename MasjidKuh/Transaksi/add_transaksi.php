@@ -66,7 +66,7 @@ $user_id = $_SESSION['users_id'];
               }
               ?>
               <form method="POST" action="#">
-                <table style="width: 500px;">
+                <table class="table table-borderless table-striped" style="width: 500px;">
                 <tr>
                     <td>Tanggal</td>
                     <td><input type="date" name="tanggal" class="form-control" value="<?= $tanggal ?>"></td>

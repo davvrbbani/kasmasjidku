@@ -40,11 +40,13 @@ if (isset($_POST['simpan'])) {
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Tambah Tabungan</h3>
+                    <a href="./?p=TM" class="btn btn-secondary btn-md float-end">
+                        <i class="bi bi-arrow-left-circle"></i>Kembali</a>
                 </div>
 
                 <div class="card-body">
-                    <form method="post">
-                        <table class="table table-bordered" style="width: 100%; max-width: 600px;">
+                    <form method="post" action="#">
+                        <table class="table table-borderless table-striped" style="width: 500px;">
                             <tr>
                                 <td>Tanggal</td>
                                 <td><input type="date" name="tanggal" class="form-control" required></td>
@@ -67,7 +69,6 @@ if (isset($_POST['simpan'])) {
                                 <td><input type="number" name="jumlah" class="form-control" required></td>
                             </tr>
                             <tr>
-                                <td></td>
                                 <td><input type="submit" name="simpan" value="Simpan" class="btn btn-primary"></td>
                             </tr>
                         </table>
