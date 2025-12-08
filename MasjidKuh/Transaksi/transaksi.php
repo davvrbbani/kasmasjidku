@@ -47,7 +47,7 @@ $data = mysqli_query($konek, $query_str);
                   <form class="d-flex" method="POST" action="#">
                     <input style="width: 250px" class="form-control me-2" type="text" name="keyword" placeholder="Cari keterangan..." value="<?= $keyword ?>">
                     <button class="btn btn-primary" type="submit">Cari</button>
-                    <a href="transaksi.php" class="btn btn-secondary ms-1">Reset</a>
+                    <a href="./?p=TS" class="btn btn-secondary ms-1">Reset</a>
                   </form>
               </div>
                 </tr>
