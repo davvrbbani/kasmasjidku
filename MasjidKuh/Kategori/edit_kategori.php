@@ -5,7 +5,7 @@ require_once "../config.php";
 $xid = $_GET['id'];
 
 
-$q_data = mysqli_query($konek, "SELECT * FROM sub_kategori WHERE id='$xid'");
+$q_data = $konek->query("SELECT * FROM sub_kategori WHERE id='$xid'");
 $data = mysqli_fetch_array($q_data);
 
 

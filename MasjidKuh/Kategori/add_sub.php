@@ -15,8 +15,7 @@ if (isset($_POST['simpan'])) {
     } else {
         $sql = "INSERT INTO sub_kategori (nama_sub_kategori, jenis, kategori_id) 
                 VALUES ('$nama_sub', '$jenis', '$kategori_id')";
-        
-        $simpan = mysqli_query($konek, $sql);
+        $simpan = $konek->query($sql);
 
         if ($simpan) {
             echo "<script>alert('Sub Kategori Berhasil Disimpan'); window.location='?p=KT'</script>";
