@@ -8,6 +8,12 @@ switch ($p) {
     case 'TM':
         include "Tabungan/tabungan.php";
     break;
+    case 'add_tm':
+        require_once "Tabungan/add_tabungan.php";
+        break;
+    case 'edit_tm':
+        require_once "Tabungan/edit_tabungan.php";
+        break;
     case 'TS':
         require_once "Transaksi/transaksi.php";
     break;

@@ -58,7 +58,7 @@ while($row = mysqli_fetch_array($q_saldo)){
               <h3 class="card-title">Riwayat Setor & Tarik Tunai</h3>
               
               <div class="d-flex justify-content-between align-items-center mt-3">
-                  <a href="tabungan_tambah.php" class="btn btn-success">
+                  <a href="?p=add_tm" class="btn btn-success">
                       <i class="bi bi-plus-circle"></i> Transaksi Tabungan
                   </a>
 
@@ -122,7 +122,7 @@ while($row = mysqli_fetch_array($q_saldo)){
                     </td>
 
                     <td align="center">
-                      <a href="tabungan_edit.php?id=<?= $d['id']; ?>" class="btn btn-sm btn-warning">Edit</a>
+                      <a href="Tabungan/edit_tabungan.php?id=<?= $d['id']; ?>" class="btn btn-sm btn-warning">Edit</a>
                       <a href="tabungan_hapus.php?id=<?= $d['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</a>
                     </td>
                   </tr>
