@@ -188,7 +188,7 @@ $saldo_akhir = $total_masuk - $total_keluar;
       const ctx = document.getElementById('myChart');
 
       new Chart(ctx, {
-        type: 'line', // Saya ganti ke Bar (Batang) biar lebih jelas dibanding Line
+        type: 'bar', // Saya ganti ke Bar (Batang) biar lebih jelas dibanding Line
         data: {
           labels: ['Pemasukan', 'Pengeluaran'],
           datasets: [{
