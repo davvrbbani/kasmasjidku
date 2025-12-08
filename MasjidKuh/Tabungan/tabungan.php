@@ -57,7 +57,7 @@ while($row = mysqli_fetch_array($q_saldo)){
             <div class="card-header">
               <h3 class="card-title">Riwayat Setor & Tarik Tunai</h3>
               
-              <div class="d-flex justify-content-between align-items-center mt-3">
+              <div class="d-flex justify-content-end align-items-center mt-3">
                   <a href="tabungan_tambah.php" class="btn btn-success">
                       <i class="bi bi-plus-circle"></i> Transaksi Tabungan
                   </a>
@@ -73,7 +73,7 @@ while($row = mysqli_fetch_array($q_saldo)){
             <div class="card-body">
               <table class="table table-bordered table-striped table-hover">
                 <thead>
-                  <tr>
+                  <tr style="text-align: center;">
                     <th width="5%">No</th>
                     <th>Tanggal</th>
                     <th>Keterangan</th>
@@ -88,7 +88,7 @@ while($row = mysqli_fetch_array($q_saldo)){
                   $no = 1;
                   while($d = mysqli_fetch_array($data)){
                   ?>
-                  <tr>
+                  <tr style="text-align: center;">
                     <td><?= $no++; ?></td>
                     <td><?= date('d-m-Y', strtotime($d['tanggal'])); ?></td>
                     <td><?= $d['keterangan']; ?></td>
@@ -101,7 +101,7 @@ while($row = mysqli_fetch_array($q_saldo)){
                         <?php } ?>
                     </td>
 
-                    <td align="right" class="text-success fw-bold">
+                    <td class="text-success fw-bold">
                         <?php 
                         if($d['jenis'] == 'setor'){
                             echo "Rp. " . number_format($d['jumlah'], 0, ',', '.');
@@ -111,7 +111,7 @@ while($row = mysqli_fetch_array($q_saldo)){
                         ?>
                     </td>
 
-                    <td align="right" class="text-danger fw-bold">
+                    <td class="text-danger fw-bold">
                         <?php 
                         if($d['jenis'] == 'tarik'){
                             echo "Rp. " . number_format($d['jumlah'], 0, ',', '.');
@@ -121,7 +121,7 @@ while($row = mysqli_fetch_array($q_saldo)){
                         ?>
                     </td>
 
-                    <td align="center">
+                    <td>
                       <a href="tabungan_edit.php?id=<?= $d['id']; ?>" class="btn btn-sm btn-warning">Edit</a>
                       <a href="tabungan_hapus.php?id=<?= $d['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</a>
                     </td>

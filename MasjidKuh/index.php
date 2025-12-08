@@ -197,6 +197,13 @@ if (!isset(($_SESSION['user'])) or $_SESSION['level'] != 'admin'){
                 </a>
               </li>
 
+              <li class="nav-item">
+                <a href="./?p=KT" class="nav-link">
+                  <i class="nav-icon bi bi-circle-fill"></i>
+                  <p>Kategori</p>
+                </a>
+              </li>
+
                 </ul>
               </li>
             </ul>

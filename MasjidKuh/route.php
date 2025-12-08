@@ -12,7 +12,10 @@ switch ($p) {
         require_once "Transaksi/transaksi.php";
     break;
     case 'add_tr':
-        require_once "Transaksi/tambah_transaksi.php";
+        require_once "Transaksi/add_transaksi.php";
+        break;
+    case 'KT':
+        require_once "Kategori/kategori.php";
         break;
     default:
     require_once "dashboard.php";
