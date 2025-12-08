@@ -176,24 +176,39 @@ if (!isset(($_SESSION['user'])) or $_SESSION['level'] != 'admin'){
               data-accordion="false"
             >
               <li class="nav-header">MENU</li>
+
+              <li class="nav-item">
+                <a href="?p=dashboard" class="nav-link">
+                  <i class="nav-icon bi bi-speedometer2"></i>
+                  <p>Dashboard</p>
+                </a>
+              </li>
+
               <li class="nav-item">
                 <a href="./?p=TM" class="nav-link">
-                  <i class="nav-icon bi bi-circle-fill"></i>
+                  <i class="nav-icon bi bi-bank2"></i>
                   <p>Tabungan</p>
                 </a>
               </li>
-              
+
               <li class="nav-item">
                 <a href="./?p=TS" class="nav-link">
-                  <i class="nav-icon bi bi-circle-fill"></i>
+                  <i class="nav-icon bi bi-wallet"></i>
                   <p>Transaksi</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="./?p=LP" class="nav-link">
-                  <i class="nav-icon bi bi-circle-fill"></i>
+                  <i class="nav-icon bi bi-file-earmark-text"></i>
                   <p>Laporan</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="./?p=KT" class="nav-link">
+                  <i class="nav-icon bi bi-tags"></i>
+                  <p>Kategori</p>
                 </a>
               </li>
 

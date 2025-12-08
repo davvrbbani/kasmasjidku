@@ -47,7 +47,7 @@ $data = mysqli_query($konek, $query_str);
                   <form class="d-flex" method="POST" action="#">
                     <input style="width: 250px" class="form-control me-2" type="text" name="keyword" placeholder="Cari keterangan..." value="<?= $keyword ?>">
                     <button class="btn btn-primary" type="submit">Cari</button>
-                    <a href="transaksi.php" class="btn btn-secondary ms-1">Reset</a>
+                    <a href="./?p=TS" class="btn btn-secondary ms-1">Reset</a>
                   </form>
               </div>
                 </tr>
@@ -72,13 +72,13 @@ $data = mysqli_query($konek, $query_str);
                   $no = 1;
                   while($d = mysqli_fetch_array($data)){
 
-                      $id_kat = $d['kategori_id'];
+                      $id_kat = $d['sub_kategori_id'];
                       
                       $q_kat = mysqli_query($konek, "SELECT * FROM sub_kategori WHERE id='$id_kat'");
                       $d_kat = mysqli_fetch_array($q_kat);
 
 
-                      $nama_kategori = $d_kat['nama_kategori']; 
+                      $nama_kategori = $d_kat['nama_sub_kategori']; 
                       $jenis = $d_kat['jenis']; 
                       
 
@@ -97,7 +97,7 @@ $data = mysqli_query($konek, $query_str);
                     <td>Rp. <?= number_format($d['jumlah'], 0, ',', '.'); ?></td>
                     <td>
                       <a href="transaksi_edit.php?id=<?= $d['id']; ?>" class="btn btn-sm btn-warning">Edit</a>
-                      <a href="transaksi_hapus.php?id=<?= $d['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</a>
+                      <a href="./?p=hps_tr&id=<?= $d['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</a>
                     </td>
                   </tr>
                   <?php } ?>

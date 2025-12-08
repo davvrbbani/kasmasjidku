@@ -38,6 +38,7 @@ session_start();
         $data=$hasil->fetch_array();
         $_SESSION['user']=$user;
         $_SESSION['level']=$data['level'];
+        $_SESSION['users_id'] = $data['id'];
         if ($_SESSION['level']=='admin'){
             header ("Location: MasjidKuh/index.php");
         }

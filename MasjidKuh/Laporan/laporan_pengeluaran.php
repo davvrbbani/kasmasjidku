@@ -78,11 +78,11 @@ $tgl_akhir = $_POST['tgl_akhir'] ?? date('Y-m-d');
                   
                   while($d = mysqli_fetch_array($query)){
 
-                      $id_kat = $d['kategori_id'];
+                      $id_kat = $d['sub_kategori_id'];
                       $q_kat = mysqli_query($konek, "SELECT * FROM sub_kategori WHERE id='$id_kat'");
                       $d_kat = mysqli_fetch_array($q_kat);
 
-                      $nama_kat = $d_kat['nama_kategori'];
+                      $nama_kat = $d_kat['nama_sub_kategori'];
                       $jenis    = $d_kat['jenis'];
                       
 
