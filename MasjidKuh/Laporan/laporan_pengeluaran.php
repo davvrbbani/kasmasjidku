@@ -42,7 +42,6 @@ $tgl_akhir = $_POST['tgl_akhir'] ?? date('Y-m-d');
                   </div>
                   <div class="col-md-4 d-flex align-items-end">
                     <button type="submit" class="btn btn-primary w-100">Tampilkan Laporan</button>
-                    <a href="laporan_print.php?tgl_awal=<?= $tgl_awal?>&tgl_akhir=<?= $tgl_akhir?>" target="_blank" class="btn btn-secondary w-100 ms-2">Cetak / PDF</a>
                   </div>
                 </div>
               </form>

@@ -72,70 +72,72 @@ while($row = mysqli_fetch_array($q_saldo)){
             </div>
 
             <div class="card-body">
-              <table class="table table-bordered table-striped table-hover">
-                <thead>
-                  <tr style="text-align: center;">
-                    <th width="5%">No</th>
-                    <th>Tanggal</th>
-                    <th>Keterangan</th>
-                    <th>Jenis Transaksi</th>
-                    <th>Debit (Masuk)</th>
-                    <th>Kredit (Keluar)</th>
-                    <th>Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php
-                  $no = 1;
-                  while($d = mysqli_fetch_array($data)){
-                  ?>
-                  <tr style="text-align: center;">
-                    <td><?= $no++; ?></td>
-                    <td><?= date('d-m-Y', strtotime($d['tanggal'])); ?></td>
-                    <td><?= $d['keterangan']; ?></td>
-                    
-                    <td>
-                        <?php if($d['jenis'] == 'setor'){ ?>
-                            <span class="badge bg-success">Setor Tunai</span>
-                        <?php } else { ?>
-                            <span class="badge bg-danger">Penarikan</span>
-                        <?php } ?>
-                    </td>
-
-                    <td class="text-success fw-bold">
-                        <?php 
-                        if($d['jenis'] == 'setor'){
-                            echo "Rp. " . number_format($d['jumlah'], 0, ',', '.');
-                        } else {
-                            echo "-";
-                        }
-                        ?>
-                    </td>
-
-                    <td class="text-danger fw-bold">
-                        <?php 
-                        if($d['jenis'] == 'tarik'){
-                            echo "Rp. " . number_format($d['jumlah'], 0, ',', '.');
-                        } else {
-                            echo "-";
-                        }
-                        ?>
-                    </td>
-
-                    <td align="center">
-                      <!-- Pilih versi yang folder-nya benar -->
-                      <a href="?p=edit_tm&id=<?= $d['id']; ?>" class="btn btn-sm btn-warning">Edit</a>
-                      <a href="?p=hapus_tm&id=<?= $d['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</a>
-                    </td>
-                  </tr>
-                  <?php } ?>
+            <table class="table table-bordered table-striped table-hover">
+              <thead class="table-light"> <tr class="text-center align-middle"> <th style="width: 5%;">No</th> <th>Tanggal</th>
+                  <th>Keterangan</th>
+                  <th>Jenis</th>
+                  <th>Debit (Masuk)</th>
+                  <th>Kredit (Keluar)</th>
+                  <th style="width: 15%;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php
+                $no = 1;
+                while($d = mysqli_fetch_array($data)){
+                ?>
+                <tr class="align-middle"> <td class="text-center"><?= $no++; ?></td>
                   
-                  <?php if(mysqli_num_rows($data) == 0): ?>
-                      <tr><td colspan="7" class="text-center">Belum ada riwayat tabungan.</td></tr>
-                  <?php endif; ?>
-                </tbody>
-              </table>
-            </div>
+                  <td class="text-center"><?= date('d-m-Y', strtotime($d['tanggal'])); ?></td>
+                  
+                  <td><?= $d['keterangan']; ?></td>
+                  
+                  <td class="text-center">
+                      <?php if($d['jenis'] == 'setor'){ ?>
+                          <span class="badge bg-success">Setor Tunai</span>
+                      <?php } else { ?>
+                          <span class="badge bg-danger">Penarikan</span>
+                      <?php } ?>
+                  </td>
+
+                  <td class="text-end text-success fw-bold">
+                      <?php 
+                      if($d['jenis'] == 'setor'){
+                          echo "Rp " . number_format($d['jumlah'], 0, ',', '.');
+                      } else {
+                          echo "-";
+                      }
+                      ?>
+                  </td>
+
+                  <td class="text-end text-danger fw-bold">
+                      <?php 
+                      if($d['jenis'] == 'tarik'){
+                          echo "Rp " . number_format($d['jumlah'], 0, ',', '.');
+                      } else {
+                          echo "-";
+                      }
+                      ?>
+                  </td>
+
+                  <td class="text-center">
+                    <div class="btn-group btn-group-sm"> <a href="?p=edit_tm&id=<?= $d['id']; ?>" class="btn btn-warning" title="Edit">
+                          <i class="bi bi-pencil-square"></i> </a>
+                      <a href="?p=hapus_tm&id=<?= $d['id']; ?>" class="btn btn-danger" onclick="return confirm('Hapus data ini?')" title="Hapus">
+                          <i class="bi bi-trash"></i>
+                      </a>
+                    </div>
+                  </td>
+
+                </tr>
+                <?php } ?>
+                
+                <?php if(mysqli_num_rows($data) == 0): ?>
+                    <tr><td colspan="7" class="text-center text-muted fst-italic py-3">Belum ada riwayat tabungan.</td></tr>
+                <?php endif; ?>
+              </tbody>
+            </table>
+          </div>
             </div>
           </div>
       </div>

@@ -5,6 +5,9 @@ switch ($p) {
     case 'LP':
         require_once "Laporan/laporan_pengeluaran.php";
     break;
+    case 'LPC':
+        require_once "Laporan/laporan_print.php";
+        break;
     case 'TM':
         include "Tabungan/tabungan.php";
     break;

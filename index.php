@@ -120,15 +120,15 @@ $saldo_akhir = $total_masuk - $total_keluar;
                                     // Query 10 Data Terakhir
                                     $q_tabel = mysqli_query($konek, "SELECT * FROM transaksi ORDER BY tanggal DESC LIMIT 10");
                                     
-                                    while($t = mysqli_fetch_array($q_tabel)){
-                                        $id = $t['sub_kategori_id'];
+                                    while($d = mysqli_fetch_array($q_tabel)){
+                                        $id = $d['sub_kategori_id'];
                                         $q_kat = mysqli_query($konek, "SELECT * FROM sub_kategori WHERE id='$id'");
                                         $kat   = mysqli_fetch_array($q_kat);
                                         $nama  = $kat['nama_sub_kategori']; 
                                         $jenis = $kat['jenis'];
                                     ?>
                                     <tr>
-                                        <td><?= date('d M Y', strtotime($t['tanggal'])) ?></td>
+                                        <td><?= date('d M Y', strtotime($d['tanggal'])) ?></td>
                                         <td>
                                             <?php if($jenis == 'masuk'){ ?>
                                                 <span class="badge bg-success"><?= $nama ?></span>
@@ -136,14 +136,14 @@ $saldo_akhir = $total_masuk - $total_keluar;
                                                 <span class="badge bg-danger"><?= $nama ?></span>
                                             <?php } ?>
                                         </td>
-                                        <td><?= $t['keterangan'] ?></td>
+                                        <td><?= $d['keterangan'] ?></td>
                                         
                                         <td class="text-end text-success">
-                                            <?php if($jenis == 'masuk') echo "Rp " . number_format($t['jumlah']); else echo "-"; ?>
+                                            <?php if($jenis == 'masuk') echo "Rp " . number_format($d['jumlah']); else echo "-"; ?>
                                         </td>
                                         
                                         <td class="text-end text-danger">
-                                            <?php if($jenis == 'keluar') echo "Rp " . number_format($t['jumlah']); else echo "-"; ?>
+                                            <?php if($jenis == 'keluar') echo "Rp " . number_format($d['jumlah']); else echo "-"; ?>
                                         </td>
                                     </tr>
                                     <?php } ?>

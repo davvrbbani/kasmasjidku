@@ -82,7 +82,6 @@ if (!isset(($_SESSION['user'])) or $_SESSION['level'] != 'admin'){
               </a>
             </li>
             <li class="nav-item d-none d-md-block"><a href="?p=dashboard" class="nav-link">Home</a></li>
-            <li class="nav-item d-none d-md-block"><a href="#" class="nav-link">Contact</a></li>
           </ul>
           <!--end::Start Navbar Links-->
           <!--begin::End Navbar Links-->
@@ -132,7 +131,6 @@ if (!isset(($_SESSION['user'])) or $_SESSION['level'] != 'admin'){
                 <!--end::Menu Body-->
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
                   <a href="../logout.php" class="btn btn-default btn-flat float-end">Sign out</a>
                 </li>
                 <!--end::Menu Footer-->
