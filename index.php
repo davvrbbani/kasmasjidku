@@ -8,7 +8,7 @@ $total_keluar = 0;
 // Hitung Saldo Total
 $qsaldo = mysqli_query($konek, "SELECT * FROM transaksi");
 while ($row = mysqli_fetch_array($qsaldo)){
-    $idkat = $row['kategori_id'];
+    $idkat = $row['sub_kategori_id'];
     $qkat = mysqli_query($konek, "SELECT * FROM sub_kategori WHERE id='$idkat'");
     $dkat = mysqli_fetch_array($qkat);
 
@@ -127,10 +127,10 @@ $saldo_akhir = $total_masuk - $total_keluar;
                                     $q_tabel = mysqli_query($konek, "SELECT * FROM transaksi ORDER BY tanggal DESC LIMIT 10");
                                     
                                     while($t = mysqli_fetch_array($q_tabel)){
-                                        $id = $t['kategori_id'];
+                                        $id = $t['sub_kategori_id'];
                                         $q_kat = mysqli_query($konek, "SELECT * FROM sub_kategori WHERE id='$id'");
                                         $kat   = mysqli_fetch_array($q_kat);
-                                        $nama  = $kat['nama_sub_kategori'];
+                                        $nama  = $kat['nama_sub_kategori']; 
                                         $jenis = $kat['jenis'];
                                     ?>
                                     <tr>
