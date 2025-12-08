@@ -29,6 +29,12 @@ switch ($p) {
     case 'KT':
         require_once "Kategori/kategori.php";
         break;
+    case 'add_ktgr':
+        require_once "Kategori/add_kategori.php";
+        break;
+    case 'add_sub':
+        require_once "Kategori/add_sub.php";
+        break;
     default:
     require_once "dashboard.php";
     break;
