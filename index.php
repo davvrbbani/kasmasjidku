@@ -39,12 +39,6 @@ $saldo_akhir = $total_masuk - $total_keluar;
             border-bottom-left-radius: 20px;
             border-bottom-right-radius: 20px;
         }
-        .card-saldo {
-            transition: transform 0.2s;
-        }
-        .card-saldo:hover {
-            transform: translateY(-5px);
-        }
     </style>
 </head>
 <body class="bg-light">
@@ -69,7 +63,7 @@ $saldo_akhir = $total_masuk - $total_keluar;
             
             <div class="row justify-content-center g-3">
                 <div class="col-md-4 col-10">
-                    <div class="card text-success fw-bold shadow-sm card-saldo">
+                    <div class="card text-success fw-bold shadow-sm">
                         <div class="card-body">
                             <div class="small text-muted text-uppercase">Total Pemasukan</div>
                             <div class="fs-4">Rp <?= number_format($total_masuk, 0, ',', '.' )?></div>
@@ -79,7 +73,7 @@ $saldo_akhir = $total_masuk - $total_keluar;
                 </div>
 
                 <div class="col-md-4 col-10">
-                    <div class="card text-danger fw-bold shadow-sm card-saldo">
+                    <div class="card text-danger fw-bold shadow-sm">
                         <div class="card-body">
                             <div class="small text-muted text-uppercase">Total Pengeluaran</div>
                             <div class="fs-4">Rp <?= number_format($total_keluar, 0, ',', '.' )?></div>
@@ -89,7 +83,7 @@ $saldo_akhir = $total_masuk - $total_keluar;
                 </div>
 
                 <div class="col-md-4 col-10">
-                    <div class="card text-white bg-primary fw-bold shadow card-saldo">
+                    <div class="card text-white bg-primary fw-bold shadow">
                         <div class="card-body">
                             <div class="small text-white-50 text-uppercase">Saldo Kas Saat Ini</div>
                             <div class="fs-3">Rp <?= number_format($saldo_akhir, 0, ',', '.' )?></div>
