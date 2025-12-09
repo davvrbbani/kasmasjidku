@@ -35,7 +35,7 @@ if (isset($_POST['keyword'])) {
                     <form class="d-flex" method="POST" action="#">
                     <input style="width: 250px" class="form-control me-2" type="text" name="keyword" placeholder="Cari keterangan..." value="<?= $keyword ?>">
                     <button class="btn btn-primary" type="submit">Cari</button>
-                    <a href="kategori.php" class="btn btn-secondary ms-1">Reset</a>
+                    <a href="./?p=KT" class="btn btn-secondary ms-1">Reset</a>
                   </form>
                 </tr>
                 </table>
