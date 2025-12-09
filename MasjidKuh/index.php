@@ -11,7 +11,7 @@ if (!isset(($_SESSION['user'])) or $_SESSION['level'] != 'admin'){
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Masjid Kuh Angker</title>
+    <title>Masjid Al-Ikhlas</title>
     <!--begin::Accessibility Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <meta name="color-scheme" content="light dark" />
