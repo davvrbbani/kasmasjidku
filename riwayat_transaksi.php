@@ -1,8 +1,5 @@
 <?php
 require_once 'config.php'; 
-function format_rupiah($angka){
-    return "Rp".number_format($angka, 0, ",", ".");
-}
 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 if ($page < 1) $page = 1;
@@ -78,13 +75,13 @@ $total_pages = ceil($total_transaksi/$limit);
                                         <td>
                                         <?php 
                                         if ($d_kat['jenis'] == 'masuk'){
-                                            echo format_rupiah($row['jumlah']);
+                                            echo "Rp".number_format($row['jumlah'], 0, '.', '.');
                                         } else {
                                             echo "-";
                                         }
                                         ?></td>
                                         <td><?php if($d_kat['jenis'] == 'keluar'){
-                                            echo format_rupiah($row['jumlah']);
+                                            echo "Rp".number_format($row['jumlah'], 0, '.', '.');
                                         } else {
                                             echo "-";
                                         }
