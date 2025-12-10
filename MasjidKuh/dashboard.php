@@ -93,7 +93,7 @@ while($tb = mysqli_fetch_array($q_tab)){
             <div class="card-header">Saldo Tabungan</div>
             <div class="card-body">
               <h4 class="card-title fw-bold">Rp <?= number_format($saldo_tabungan, 0, ',', '.') ?></h4>
-              <p class="card-text"><small>Aset di Rekening/Bank</small></p>
+              <p class="card-text"><small>Aset di Rekening</small></p>
             </div>
           </div>
         </div>
