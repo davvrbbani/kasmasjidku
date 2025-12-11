@@ -157,7 +157,7 @@ if (!isset(($_SESSION['user'])) or $_SESSION['level'] != 'admin'){
             />
             <!--end::Brand Image-->
             <!--begin::Brand Text-->
-            <span class="brand-text fw-light">Masjid Kuh</span>
+            <span class="brand-text fw-light">Masjid Al-Ikhlas</span>
             <!--end::Brand Text-->
           </a>
           <!--end::Brand Link-->

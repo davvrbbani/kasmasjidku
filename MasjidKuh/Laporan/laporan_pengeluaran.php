@@ -30,21 +30,27 @@ $tgl_akhir = $_POST['tgl_akhir'] ?? date('Y-m-d');
               <h3 class="card-title">Filter Laporan</h3>
             </div>
             <div class="card-body">
-              <form method="POST" action="">
-                <div class="row">
-                  <div class="col-md-4">
-                    <label>Dari Tanggal</label>
-                    <input type="date" name="tgl_awal" class="form-control" value="<?= $tgl_awal; ?>" required>
-                  </div>
-                  <div class="col-md-4">
-                    <label>Sampai Tanggal</label>
-                    <input type="date" name="tgl_akhir" class="form-control" value="<?= $tgl_akhir; ?>" required>
-                  </div>
-                  <div class="col-md-4 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary w-100">Tampilkan Laporan</button>
-                  </div>
+            <form method="POST" action="">
+                <div class="row align-items-end"> <div class="col-md-4 mb-3 mb-md-0">
+                        <label class="form-label fw-bold">Dari Tanggal</label>
+                        <input type="date" name="tgl_awal" class="form-control" value="<?= $tgl_awal; ?>" required>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <label class="form-label fw-bold">Sampai Tanggal</label>
+                        <input type="date" name="tgl_akhir" class="form-control" value="<?= $tgl_akhir; ?>" required>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-grid gap-2 d-md-flex"> <button type="submit" class="btn btn-primary flex-fill">
+                                <i class="bi bi-search me-1"></i> Tampilkan
+                            </button>
+                            
+                            <a href="Laporan/laporan_print.php?tgl_awal=<?= $tgl_awal ?>&tgl_akhir=<?= $tgl_akhir ?>" target="_blank" class="btn btn-secondary flex-fill">
+                                <i class="bi bi-printer me-1"></i> Cetak PDF
+                            </a>
+                        </div>
+                    </div>
                 </div>
-              </form>
+            </form>
             </div>
           </div>
 
