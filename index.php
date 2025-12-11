@@ -1,11 +1,9 @@
 <?php
-// --- BAGIAN LOGIC PHP (Tetap sama) ---
-require_once "config.php"; // Pastikan path ini benar!
+require_once "config.php"; 
 
 $total_masuk = 0;
 $total_keluar = 0;
 
-// Hitung Saldo Total
 $qsaldo = $konek->query("SELECT * FROM transaksi");
 while ($row = mysqli_fetch_array($qsaldo)){
     $idkat = $row['sub_kategori_id'];
@@ -117,15 +115,14 @@ $saldo_akhir = $total_masuk - $total_keluar;
                                 </thead>
                                 <tbody>
                                     <?php
-                                    // Query 10 Data Terakhir
                                     $q_tabel = $konek->query("SELECT * FROM transaksi ORDER BY tanggal DESC LIMIT 10");
                                     
-                                    while($d = mysqli_fetch_array($q_tabel)){
-                                        $id = $d['sub_kategori_id'];
-                                        $q_kat = $konek->query("SELECT * FROM sub_kategori WHERE id='$id'");
-                                        $kat   = mysqli_fetch_array($q_kat);
-                                        $nama  = $kat['nama_sub_kategori']; 
-                                        $jenis = $kat['jenis'];
+                                    foreach ($q_tabel as $d) {
+
+                                        $id_kat = $d['sub_kategori_id'];
+                                        $kat = $konek->query("SELECT * FROM sub_kategori WHERE id='$id_kat'")->fetch_assoc();
+                                        $nama  = $kat['nama_sub_kategori'] ?? '-'; 
+                                        $jenis = $kat['jenis'] ?? '';
                                     ?>
                                     <tr>
                                         <td><?= date('d M Y', strtotime($d['tanggal'])) ?></td>
@@ -139,14 +136,26 @@ $saldo_akhir = $total_masuk - $total_keluar;
                                         <td><?= $d['keterangan'] ?></td>
                                         
                                         <td class="text-end text-success">
-                                            <?php if($jenis == 'masuk') echo "Rp " . number_format($d['jumlah']); else echo "-"; ?>
+                                            <?php 
+                                            if($jenis == 'masuk') {
+                                                echo "Rp " . number_format($d['jumlah'], 0, ',', '.');
+                                            } else {
+                                                echo "-"; 
+                                            }
+                                            ?>
                                         </td>
                                         
                                         <td class="text-end text-danger">
-                                            <?php if($jenis == 'keluar') echo "Rp " . number_format($d['jumlah']); else echo "-"; ?>
+                                            <?php 
+                                            if($jenis == 'keluar') {
+                                                echo "Rp " . number_format($d['jumlah'], 0, ',', '.');
+                                            } else {
+                                                echo "-"; 
+                                            }
+                                            ?>
                                         </td>
                                     </tr>
-                                    <?php } ?>
+                                    <?php }?>
                                 </tbody>
                             </table>
                         </div>

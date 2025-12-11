@@ -71,7 +71,7 @@ if (isset($_POST['update'])) {
                             </tr>
                             <tr>
                                 <td></td>
-                                <td><input type="submit" name="update" value="update" class="btn btn-primary"></td>
+                                <td><input type="submit" name="update" value="update" class="btn btn-primary"><a href="./?p=TM" class="btn btn-info">Kembali</a></td>
                             </tr>
                         </table>
                     </form>

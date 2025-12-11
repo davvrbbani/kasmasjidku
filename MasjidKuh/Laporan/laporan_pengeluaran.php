@@ -55,76 +55,82 @@ $tgl_akhir = $_POST['tgl_akhir'] ?? date('Y-m-d');
               </h3>
             </div>
             <div class="card-body">
-              <table class="table table-bordered table-striped">
-                <thead>
-                  <tr class="text-center">
-                    <th width="5%">No</th>
-                    <th>Tanggal</th>
-                    <th>Kategori & Keterangan</th>
-                    <th>Pemasukan (Rp)</th>
-                    <th>Pengeluaran (Rp)</th>
-                  </tr>
+            <table class="table table-bordered table-striped">
+                <thead class="table-light">
+                    <tr class="text-center align-middle">
+                        <th width="5%">No</th>
+                        <th>Tanggal</th>
+                        <th>Kategori & Keterangan</th>
+                        <th>Pemasukan (Rp)</th>
+                        <th>Pengeluaran (Rp)</th>
+                    </tr>
                 </thead>
                 <tbody>
-                  <?php
-                  $no = 1;
-                  $total_masuk = 0;
-                  $total_keluar = 0;
+                    <?php
+                    $no = 1;
+                    $total_masuk = 0;
+                    $total_keluar = 0;
 
+                    $query = $konek->query("SELECT * FROM transaksi WHERE tanggal BETWEEN '$tgl_awal' AND '$tgl_akhir' ORDER BY tanggal ASC");
+                    
+                    foreach($query as $d){
 
-                  $query = mysqli_query($konek, "SELECT * FROM transaksi WHERE tanggal BETWEEN '$tgl_awal' AND '$tgl_akhir' ORDER BY tanggal ASC");
-                  
-                  while($d = mysqli_fetch_array($query)){
+                        $id_kat = $d['sub_kategori_id'];
+                        $d_kat = $konek->query("SELECT * FROM sub_kategori WHERE id='$id_kat'")->fetch_assoc();
 
-                      $id_kat = $d['sub_kategori_id'];
-                      $q_kat = mysqli_query($konek, "SELECT * FROM sub_kategori WHERE id='$id_kat'");
-                      $d_kat = mysqli_fetch_array($q_kat);
+                        $nama_kat = $d_kat['nama_sub_kategori'] ?? '-';
+                        $jenis    = $d_kat['jenis'] ?? '';
+                        
+                        $pemasukan_row = 0;
+                        $pengeluaran_row = 0;
 
-                      $nama_kat = $d_kat['nama_sub_kategori'];
-                      $jenis    = $d_kat['jenis'];
-                      
+                        if($jenis == 'masuk'){
+                            $pemasukan_row = $d['jumlah'];
+                            $total_masuk += $d['jumlah'];
+                        } else {
+                            $pengeluaran_row = $d['jumlah'];
+                            $total_keluar += $d['jumlah'];
+                        }
+                    ?>
+                    <tr>
+                        <td class="text-center"><?= $no++; ?></td>
+                        <td class="text-center"><?= date('d-m-Y', strtotime($d['tanggal'])); ?></td>
+                        <td>
+                            <b><?= $nama_kat; ?></b><br>
+                            <small class="text-muted"><?= $d['keterangan']; ?></small>
+                        </td>
+                        
+                        <td class="text-end">
+                            <?= ($pemasukan_row > 0) ? number_format($pemasukan_row, 0, ',', '.') : '-'; ?>
+                        </td>
+                        
+                        <td class="text-end">
+                            <?= ($pengeluaran_row > 0) ? number_format($pengeluaran_row, 0, ',', '.') : '-'; ?>
+                        </td>
+                    </tr>
+                    <?php }?>
 
-                      $pemasukan_row = 0;
-                      $pengeluaran_row = 0;
-
-                      if($jenis == 'masuk'){
-                          $pemasukan_row = $d['jumlah'];
-                          $total_masuk += $d['jumlah'];
-                      } else {
-                          $pengeluaran_row = $d['jumlah'];
-                          $total_keluar += $d['jumlah'];
-                      }
-                  ?>
-                  <tr>
-                    <td align="center"><?= $no++; ?></td>
-                    <td align="center"><?= date('d-m-Y', strtotime($d['tanggal'])); ?></td>
-                    <td>
-                        <b><?= $nama_kat; ?></b><br>
-                        <small class="text-muted"><?= $d['keterangan']; ?></small>
-                    </td>
-                    <td align="right"><?= ($pemasukan_row > 0) ? number_format($pemasukan_row,0,',','.') : '-'; ?></td>
-                    <td align="right"><?= ($pengeluaran_row > 0) ? number_format($pengeluaran_row,0,',','.') : '-'; ?></td>
-                  </tr>
-                  <?php } ?>
-
-                  <?php if(mysqli_num_rows($query) == 0): ?>
-                      <tr><td colspan="5" class="text-center">Tidak ada transaksi pada periode ini.</td></tr>
-                  <?php endif; ?>
+                    <?php 
+                    if($query->num_rows == 0): 
+                    ?>
+                        <tr><td colspan="5" class="text-center fst-italic py-3">Tidak ada transaksi pada periode ini.</td></tr>
+                    <?php endif; ?>
                 </tbody>
+                
                 <tfoot>
                     <tr class="fw-bold bg-light">
-                        <td colspan="3" align="center">TOTAL</td>
-                        <td align="right" class="text-success"><?= number_format($total_masuk,0,',','.'); ?></td>
-                        <td align="right" class="text-danger"><?= number_format($total_keluar,0,',','.'); ?></td>
+                        <td colspan="3" class="text-center">TOTAL</td>
+                        <td class="text-end text-success"><?= number_format($total_masuk, 0, ',', '.'); ?></td>
+                        <td class="text-end text-danger"><?= number_format($total_keluar, 0, ',', '.'); ?></td>
                     </tr>
                     <tr class="fw-bold bg-dark text-white">
-                        <td colspan="3" align="center">SALDO AKHIR (Pemasukan - Pengeluaran)</td>
-                        <td colspan="2" align="center">
-                            Rp. <?= number_format($total_masuk - $total_keluar, 0, ',', '.'); ?>
+                        <td colspan="3" class="text-center">SALDO AKHIR (Pemasukan - Pengeluaran)</td>
+                        <td colspan="2" class="text-center">
+                            Rp <?= number_format($total_masuk - $total_keluar, 0, ',', '.'); ?>
                         </td>
                     </tr>
                 </tfoot>
-              </table>
+            </table>
             </div>
           </div>
           </div>

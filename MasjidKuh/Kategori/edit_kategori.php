@@ -1,20 +1,17 @@
 <?php
 require_once "../config.php";
 
-
 $xid = $_GET['id'];
 
-
 $q_data = $konek->query("SELECT * FROM sub_kategori WHERE id='$xid'");
-$data = mysqli_fetch_array($q_data);
-
+$data   = $q_data->fetch_assoc();
 
 if(isset($_POST['update'])){
 
-    $id             = $_POST['id'];
-    $kategori_id    = $_POST['kategori_id']; 
-    $nama_sub       = $_POST['nama_sub_kategori'];
-    $jenis          = $_POST['jenis'];
+    $id          = $_POST['id'];
+    $kategori_id = $_POST['kategori_id']; 
+    $nama_sub    = $_POST['nama_sub_kategori'];
+    $jenis       = $_POST['jenis'];
 
     $sql = "UPDATE sub_kategori SET 
             nama_sub_kategori = '$nama_sub',
@@ -22,12 +19,12 @@ if(isset($_POST['update'])){
             kategori_id = '$kategori_id'
             WHERE id = '$id'";
 
-    $update = mysqli_query($konek, $sql);
+    $update = $konek->query($sql);
 
     if($update){
         echo "<script>alert('Data Berhasil Diupdate!'); window.location='./?p=KT';</script>";
     } else {
-        echo "<script>alert('Gagal Update: ".mysqli_error($konek)."');</script>";
+        echo "<script>alert('Gagal Update: ".$konek->error."');</script>";
     }
 }
 ?>
@@ -63,21 +60,21 @@ if(isset($_POST['update'])){
                                 <select name="kategori_id" class="form-control" required>
                                     <option value="">-- Pilih Kategori --</option>
                                     <?php
-
-                                    $q_kat = mysqli_query($konek, "SELECT * FROM kategori ORDER BY nama_kategori ASC");
+                                    $q_kat = $konek->query("SELECT * FROM kategori ORDER BY nama_kategori ASC");
                                     
-                                    while($k = mysqli_fetch_array($q_kat)){
+                                    foreach($q_kat as $k){
+                                        
                                         if($k['id'] == $data['kategori_id']){
                                             $pilih = "selected";
                                         } else {
                                             $pilih = "";
                                         }
-                                        ?>
+                                    ?>
                                         <option value="<?= $k['id']; ?>" <?= $pilih; ?>>
                                             <?= $k['nama_kategori']; ?>
                                         </option>
-                                        <?php
-                                    }
+                                    <?php
+                                    } 
                                     ?>
                                 </select>
                             </td>

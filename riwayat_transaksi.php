@@ -6,12 +6,13 @@ if ($page < 1) $page = 1;
 $limit = 25; 
 $offset = ($page - 1) * $limit;
 
-$query_transaksi = $konek->query("SELECT * FROM transaksi LIMIT $limit OFFSET $offset");
+$query_transaksi = $konek->query("SELECT * FROM transaksi ORDER BY tanggal DESC LIMIT $limit OFFSET $offset");
+
 $query_total = $konek->query("SELECT COUNT(*) as total FROM transaksi");
-$data_total = mysqli_fetch_array($query_total);
+$data_total  = $query_total->fetch_assoc(); 
 
 $total_transaksi = $data_total['total'];
-$total_pages = ceil($total_transaksi/$limit);
+$total_pages     = ceil($total_transaksi / $limit);
 ?>
 
 <!DOCTYPE html>
@@ -22,13 +23,17 @@ $total_pages = ceil($total_transaksi/$limit);
     <title>Sistem Informasi Masjid</title>
     <link rel="stylesheet" href="assets/css/adminlte.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
 <body class="bg-light">
+
 <main class="app-main">
+    
     <div class="app-content-header">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-6"><h3 class="mb-0"><i class="bi bi-clock-history me-2">Semua Aktivitas Transaksi</i></h3>
-            </div>
+                <div class="col-sm-6">
+                    <h3 class="mb-0"><i class="bi bi-clock-history me-2"></i>Semua Aktivitas Transaksi</h3>
+                </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-end">
                         <li class="breadcrumb-item"><a href="index.php">Home</a></li>
@@ -44,8 +49,11 @@ $total_pages = ceil($total_transaksi/$limit);
             <div class="row">
                 <div class="col-12">
                     <div class="card">
+                        
                         <div class="card-header">
-                            <h3 class="card-title">Menampilkan <?php echo mysqli_num_rows($query_transaksi); ?> dari <?php echo $total_transaksi; ?> Total Transaksi</h3>
+                            <h3 class="card-title">
+                                Menampilkan <?php echo $query_transaksi->num_rows; ?> dari <?php echo $total_transaksi; ?> Total Transaksi
+                            </h3>
                         </div>
                         
                         <div class="card-body p-0">
@@ -54,41 +62,52 @@ $total_pages = ceil($total_transaksi/$limit);
                                     <tr>
                                         <th style="width: 20%;">Tanggal</th>
                                         <th style="width: 50%;">Kategori</th>
-                                        <th style="width: 30%;">Masuk</th>
-                                        <th style="width: 30%;">Keluar</th>
+                                        <th style="width: 15%;" class="text-end">Masuk</th>
+                                        <th style="width: 15%;" class="text-end">Keluar</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    if(mysqli_num_rows($query_transaksi) == 0){
-                                        echo "<tr><td colspan='4' class='text-center'>Tidak Ada Data Transaksi</td></tr>";
+                                    if($query_transaksi->num_rows == 0){
+                                        echo "<tr><td colspan='4' class='text-center py-4 text-muted'>Tidak Ada Data Transaksi</td></tr>";
                                     }
-                                    while($row = mysqli_fetch_array($query_transaksi)){
-                                    $id_kat = $row['sub_kategori_id'];
-                                    $q_kat = $konek->query("SELECT * FROM sub_kategori WHERE id='$id_kat'");
-                                    $d_kat = mysqli_fetch_array($q_kat);
-                                    ?>
 
+                                    foreach ($query_transaksi as $row) {
+                                        
+                                        $id_kat = $row['sub_kategori_id'];
+                                        
+                                        $d_kat = $konek->query("SELECT * FROM sub_kategori WHERE id='$id_kat'")->fetch_assoc();
+
+                                        $nama_kat = $d_kat['nama_sub_kategori'] ?? '-';
+                                        $jenis    = $d_kat['jenis'] ?? '';
+                                    ?>
                                     <tr>
-                                        <td><?php echo date('d-m-Y', strtotime($row['tanggal']));?></td>
-                                        <td><?php echo $d_kat['nama_sub_kategori'];?></td>
-                                        <td>
-                                        <?php 
-                                        if ($d_kat['jenis'] == 'masuk'){
-                                            echo "Rp".number_format($row['jumlah'], 0, '.', '.');
-                                        } else {
-                                            echo "-";
-                                        }
-                                        ?></td>
-                                        <td><?php if($d_kat['jenis'] == 'keluar'){
-                                            echo "Rp".number_format($row['jumlah'], 0, '.', '.');
-                                        } else {
-                                            echo "-";
-                                        }
-                                        ?></td>
+                                        <td><?php echo date('d-m-Y', strtotime($row['tanggal'])); ?></td>
+                                        
+                                        <td><?php echo $nama_kat; ?></td>
+                                        
+                                        <td class="text-end text-success">
+                                            <?php 
+                                            if ($jenis == 'masuk'){
+                                                echo "Rp " . number_format($row['jumlah'], 0, ',', '.');
+                                            } else {
+                                                echo "-";
+                                            }
+                                            ?>
+                                        </td>
+                                        
+                                        <td class="text-end text-danger">
+                                            <?php 
+                                            if($jenis == 'keluar'){
+                                                echo "Rp " . number_format($row['jumlah'], 0, ',', '.');
+                                            } else {
+                                                echo "-";
+                                            }
+                                            ?>
+                                        </td>
                                     </tr>
-                                    <?php
-                                    }
+                                    <?php 
+                                    } 
                                     ?>
                                 </tbody>
                             </table>
@@ -98,6 +117,7 @@ $total_pages = ceil($total_transaksi/$limit);
                         <div class="card-footer">
                             <nav>
                                 <ul class="pagination justify-content-center mb-0">
+                                    
                                     <li class="page-item <?php echo ($page <= 1) ? 'disabled' : ''; ?>">
                                         <a class="page-link" href="?p=activity&page=<?php echo $page - 1; ?>">Previous</a>
                                     </li>
@@ -111,6 +131,7 @@ $total_pages = ceil($total_transaksi/$limit);
                                     <li class="page-item <?php echo ($page >= $total_pages) ? 'disabled' : ''; ?>">
                                         <a class="page-link" href="?p=activity&page=<?php echo $page + 1; ?>">Next</a>
                                     </li>
+
                                 </ul>
                             </nav>
                         </div>
@@ -122,5 +143,8 @@ $total_pages = ceil($total_transaksi/$limit);
         </div>
     </div>
 </main>
+
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+
 </body>
-</head>
+</html>

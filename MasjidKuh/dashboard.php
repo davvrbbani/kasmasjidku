@@ -1,24 +1,23 @@
 <?php
-
 include "../config.php"; 
 
+// Inisialisasi Variabel
 $total_masuk  = 0;
 $total_keluar = 0;
 $saldo_akhir  = 0;
 
-
 $q_transaksi = $konek->query("SELECT * FROM transaksi");
 
-while ($t = mysqli_fetch_array($q_transaksi)) {
+foreach ($q_transaksi as $t) {
 
     $id_sub = $t['sub_kategori_id'];
     $jumlah = $t['jumlah'];
 
-    $q_cek_jenis = $konek->query("SELECT jenis FROM sub_kategori WHERE id='$id_sub'"); 
-    $d_jenis = mysqli_fetch_array($q_cek_jenis);
+    $d_jenis = $konek->query("SELECT jenis FROM sub_kategori WHERE id='$id_sub'")->fetch_assoc();
 
+    $jenis_transaksi = $d_jenis['jenis'] ?? '';
 
-    if ($d_jenis['jenis'] == 'masuk') {
+    if ($jenis_transaksi == 'masuk') {
         $total_masuk += $jumlah;
     } else {
         $total_keluar += $jumlah; 
@@ -29,17 +28,18 @@ $saldo_akhir = $total_masuk - $total_keluar;
 
 $q_tab = $konek->query("SELECT * FROM tabungan"); 
 $saldo_tabungan = 0;
-while($tb = mysqli_fetch_array($q_tab)){
+
+foreach ($q_tab as $tb) {
     if($tb['jenis'] == 'setor'){
         $saldo_tabungan += $tb['jumlah'];
     } else {
         $saldo_tabungan -= $tb['jumlah'];
     }
 }
-
 ?>
 
-<main class="app-main"> <div class="app-content-header">
+<main class="app-main"> 
+  <div class="app-content-header">
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-6"><h3 class="mb-0">Dashboard Admin</h3></div>
@@ -99,6 +99,7 @@ while($tb = mysqli_fetch_array($q_tab)){
         </div>
 
       </div>
+
       <div class="row">
         <div class="col-12">
           <div class="card">
@@ -111,7 +112,8 @@ while($tb = mysqli_fetch_array($q_tab)){
           </div>
         </div>
       </div>
-      </div>
+
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

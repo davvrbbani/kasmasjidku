@@ -13,14 +13,16 @@ if (isset($_POST['simpan'])) {
     } elseif (empty($jenis)){
         echo "<script>alert('Semua data wajib diisi!'); window.location='?p=add_sub'</script>";
     } else {
+        
         $sql = "INSERT INTO sub_kategori (nama_sub_kategori, jenis, kategori_id) 
                 VALUES ('$nama_sub', '$jenis', '$kategori_id')";
+        
         $simpan = $konek->query($sql);
 
         if ($simpan) {
             echo "<script>alert('Sub Kategori Berhasil Disimpan'); window.location='?p=KT'</script>";
         } else {
-            echo "<script>alert('Gagal Disimpan: ".mysqli_error($konek)."');</script>";
+            echo "<script>alert('Gagal Disimpan: ".$konek->error."');</script>";
         }
     }
 }
@@ -53,13 +55,14 @@ if (isset($_POST['simpan'])) {
                         <select name="kategori_id" class="form-control" required>
                             <option value="">-- Pilih Kategori Utama --</option>
                             <?php
-                            $q_kat = mysqli_query($konek, "SELECT * FROM kategori ORDER BY nama_kategori ASC");
-                            while($k = mysqli_fetch_array($q_kat)){
-                                ?>
+                            $q_kat = $konek->query("SELECT * FROM kategori ORDER BY nama_kategori ASC");
+                            
+                            foreach($q_kat as $k){
+                            ?>
                                 <option value="<?= $k['id'] ?>">
                                     <?= $k['nama_kategori'] ?>
                                 </option>
-                                <?php
+                            <?php
                             }
                             ?>
                         </select>
