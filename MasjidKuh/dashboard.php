@@ -27,13 +27,13 @@ foreach ($q_transaksi as $t) {
 $saldo_akhir = $total_masuk - $total_keluar;
 
 $q_tab = $konek->query("SELECT * FROM pengembangan"); 
-$saldo_tabungan = 0;
+$saldo_pengembangan = 0;
 
 foreach ($q_tab as $tb) {
     if($tb['jenis'] == 'setor'){
-        $saldo_tabungan += $tb['jumlah'];
+        $saldo_pengembangan += $tb['jumlah'];
     } else {
-        $saldo_tabungan -= $tb['jumlah'];
+        $saldo_pengembangan -= $tb['jumlah'];
     }
 }
 ?>
@@ -90,9 +90,9 @@ foreach ($q_tab as $tb) {
 
         <div class="col-lg-3 col-6">
           <div class="card text-dark bg-warning mb-3">
-            <div class="card-header">Saldo Tabungan</div>
+            <div class="card-header">Saldo pembangunan masjid</div>
             <div class="card-body">
-              <h4 class="card-title fw-bold">Rp <?= number_format($saldo_tabungan, 0, ',', '.') ?></h4>
+              <h4 class="card-title fw-bold">Rp <?= number_format($saldo_pengembangan, 0, ',', '.') ?></h4>
               <p class="card-text"><small>Aset di Rekening</small></p>
             </div>
           </div>
@@ -124,23 +124,26 @@ foreach ($q_tab as $tb) {
     new Chart(ctx, {
       type: 'bar', 
       data: {
-        labels: ['Pemasukan', 'Pengeluaran', 'Saldo Akhir'], 
+        labels: ['Pemasukan', 'Pengeluaran', 'Saldo Akhir','Saldo pembangunan masjid'], 
         datasets: [{
           label: 'Jumlah (Rupiah)',
           data: [
             <?= $total_masuk ?>, 
             <?= $total_keluar ?>, 
-            <?= $saldo_akhir ?>
+            <?= $saldo_akhir ?>,
+            <?= $saldo_pengembangan ?>,
           ],
           backgroundColor: [
             'rgba(25, 135, 84, 0.7)', 
             'rgba(220, 53, 69, 0.7)',  
             'rgba(13, 110, 253, 0.7)',
+            'rgba(255, 193, 7, 0.7)',
           ],
           borderColor: [
             'rgba(25, 135, 84, 1)',
             'rgba(220, 53, 69, 1)',
-            'rgba(13, 110, 253, 1)'
+            'rgba(13, 110, 253, 1)',
+            'rgba(255, 193, 7, 0.7)',
           ],
           borderWidth: 1
         }]

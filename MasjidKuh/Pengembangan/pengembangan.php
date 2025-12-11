@@ -1,5 +1,7 @@
 <?php
 include "../config.php";
+$tgl_awal  = $_POST['tgl_awal'] ?? date('Y-m-01');
+$tgl_akhir = $_POST['tgl_akhir'] ?? date('Y-m-d');
 
 $keyword = $_POST['keyword'] ?? '';
 
@@ -57,16 +59,25 @@ foreach($q_saldo as $row){
             
             <div class="card-header">
               <h3 class="card-title" style="font-weight: bold">Riwayat Setor & Tarik</h3>
-
+          
               <div class="d-flex justify-content-end align-items-center mt-3">
-                  <a href="?p=add_tm" class="btn btn-success me-2">
+                    <div class="col mb-3 mb-md-0 me-2">
+                <label class="form-label fw-bold">Dari Tanggal</label>
+                        <input type="date" name="tgl_awal" class="form-control" value="<?= $tgl_awal; ?>" required>
+                    </div>
+                    <div class="col mb-3 mb-md-0 me-2">
+                        <label class="form-label fw-bold">Sampai Tanggal</label>
+                        <input type="date" name="tgl_akhir" class="form-control" value="<?= $tgl_akhir; ?>" required>
+                      </div>
+                  <a href="?p=add_pg" class="btn btn-success me-2">
                       <i class="bi bi-plus-circle"></i> Tambah Data
                   </a>
+
 
                   <form class="d-flex" method="POST" action="">
                     <input class="form-control me-2" type="text" name="keyword" placeholder="Cari keterangan..." value="<?= $keyword ?>">
                     <button class="btn btn-primary" type="submit">Cari</button>
-                    <a href="?p=TM" class="btn btn-secondary ms-1">Reset</a>
+                    <a href="?p=PG" class="btn btn-secondary ms-1">Reset</a>
                   </form>
               </div>
             </div>

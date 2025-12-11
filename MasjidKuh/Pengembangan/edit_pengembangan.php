@@ -1,7 +1,7 @@
 <?php
 require_once '../config.php';
 $id = $_GET['id'];
-$sql = "SELECT * FROM tabungan WHERE id='$id'";
+$sql = "SELECT * FROM pengembangan WHERE id='$id'";
 $q=$konek->query($sql);
 $data =mysqli_fetch_array($q);
 if (isset($_POST['update'])) {
@@ -10,14 +10,14 @@ if (isset($_POST['update'])) {
     $jenis = $_POST['jenis'];
     $jumlah = $_POST['jumlah'];
 
-    $sql = "UPDATE tabungan SET tanggal='$tanggal',keterangan='$keterangan',jenis='$jenis',jumlah='$jumlah'
+    $sql = "UPDATE pengembangan SET tanggal='$tanggal',donatur='$donatur',jenis='$jenis',jumlah='$jumlah'
             WHERE id='$id'";
     $update = $konek->query($sql);
 
     if ($update) {
-        echo "<script>alert('Data Berhasil Diupdate'); window.location='?p=TM'</script>";
+        echo "<script>alert('Data Berhasil Diupdate'); window.location='?p=PG'</script>";
     } else {
-        echo "<script>alert('Data Gagal Diupdate'); window.location='?p=edit_tm&id=$id'</script>";
+        echo "<script>alert('Data Gagal Diupdate'); window.location='?p=edit_pg&id=$id'</script>";
     }
 }
 ?>
@@ -25,11 +25,11 @@ if (isset($_POST['update'])) {
 <div class="app-content-header">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-6"><h3 class="mb-0">Edit Tabungan</h3></div>
+            <div class="col-sm-6"><h3 class="mb-0">Edit pengembangan masjid</h3></div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Edit Tabungan</li>
+                    <li class="breadcrumb-item active">Edit pengembangan masjid</li>
                 </ol>
             </div>
         </div>
@@ -42,7 +42,7 @@ if (isset($_POST['update'])) {
             <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Edit Tabungan</h3>
+                    <h3 class="card-title">Edit pengembangan masjid</h3>
                 </div>
 
                 <div class="card-body">

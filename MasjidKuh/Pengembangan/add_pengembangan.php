@@ -7,14 +7,14 @@ if (isset($_POST['simpan'])) {
     $jenis = $_POST['jenis'];
     $jumlah = $_POST['jumlah'];
 
-    $sql = "INSERT INTO tabungan (tanggal,keterangan,jenis,jumlah) 
+    $sql = "INSERT INTO pengembangan (tanggal,keterangan,jenis,jumlah) 
             VALUES ('$tanggal','$keterangan','$jenis','$jumlah')";
     $simpan = $konek->query($sql);
 
     if ($simpan) {
-        echo "<script>alert('Data Berhasil Disimpan'); window.location='?p=TM'</script>";
+        echo "<script>alert('Data Berhasil Disimpan'); window.location='?p=PG'</script>";
     } else {
-        echo "<script>alert('Data Gagal Disimpan'); window.location='?p=add_tm'</script>";
+        echo "<script>alert('Data Gagal Disimpan'); window.location='?p=add_pg'</script>";
     }
 }
 ?>
@@ -22,11 +22,11 @@ if (isset($_POST['simpan'])) {
 <div class="app-content-header">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-6"><h3 class="mb-0">Tambah Tabungan</h3></div>
+            <div class="col-sm-6"><h3 class="mb-0">Tambah pengembangan masjid</h3></div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Tambah Tabungan</li>
+                    <li class="breadcrumb-item active">Tambah pengembangan masjid</li>
                 </ol>
             </div>
         </div>
@@ -39,8 +39,8 @@ if (isset($_POST['simpan'])) {
             <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Tambah Tabungan</h3>
-                    <a href="./?p=TM" class="btn btn-secondary btn-md float-end">
+                    <h3 class="card-title"> Tambah pengembangan masjid</h3>
+                    <a href="./?p=PG" class="btn btn-secondary btn-md float-end">
                         <i class="bi bi-arrow-left-circle"></i>Kembali</a>
                 </div>
 

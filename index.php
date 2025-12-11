@@ -214,13 +214,14 @@ $q_pengembangan = $konek->query("SELECT * FROM pengembangan");
           labels: ['Pemasukan', 'Pengeluaran'],
           datasets: [{
             label: 'Total Rupiah',
-            data: [<?= $total_masuk ?>, <?= $total_keluar ?>],
+            data: [<?= $total_masuk ?>, <?= $total_keluar ?>,<?=$pengembangan_masjid?>],
             backgroundColor: [
               '#198754', // Hijau
-              '#dc3545'  // Merah
+              '#dc3545',  // Merah
+
             ],
             borderWidth: 1
-          }]
+            }]
         },
         options: {
             responsive: true,
