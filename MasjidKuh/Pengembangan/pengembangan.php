@@ -3,6 +3,9 @@ include "../config.php";
 $tgl_awal  = $_POST['tgl_awal'] ?? date('Y-m-01');
 $tgl_akhir = $_POST['tgl_akhir'] ?? date('Y-m-d');
 
+$tgl_awal  = $_POST['tgl_awal'] ?? date('Y-m-01');
+$tgl_akhir = $_POST['tgl_akhir'] ?? date('Y-m-d');
+
 $keyword = $_POST['keyword'] ?? '';
 
 if(!empty($keyword)){
@@ -53,9 +56,39 @@ foreach($q_saldo as $row){
           </div>
       </div>
 
+      <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+              <h3 class="card-title">Filter Laporan</h3>
+            </div>
+            <div class="card-body">
+            <form method="POST" action="">
+                <div class="row align-items-end"> <div class="col-md-4 mb-3 mb-md-0">
+                        <label class="form-label fw-bold">Dari Tanggal</label>
+                        <input type="date" name="tgl_awal" class="form-control" value="<?= $tgl_awal; ?>" required>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <label class="form-label fw-bold">Sampai Tanggal</label>
+                        <input type="date" name="tgl_akhir" class="form-control" value="<?= $tgl_akhir; ?>" required>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-grid gap-2 d-md-flex"> <button type="submit" class="btn btn-primary flex-fill">
+                                <i class="bi bi-search me-1"></i> Tampilkan
+                            </button>
+                            
+                            <a href="Pengembangan/print_pengembangan.php?tgl_awal=<?= $tgl_awal ?>&tgl_akhir=<?= $tgl_akhir ?>" target="_blank" class="btn btn-secondary flex-fill">
+                                <i class="bi bi-printer me-1"></i> Cetak PDF
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </div>
+          </div>
+
       <div class="row">
         <div class="col-12">
           <div class="card">
+
             
             <div class="card-header">
               <h3 class="card-title" style="font-weight: bold">Riwayat Setor & Tarik</h3>
@@ -80,9 +113,24 @@ foreach($q_saldo as $row){
                     <a href="?p=PG" class="btn btn-secondary ms-1">Reset</a>
                   </form>
               </div>
+
+
+          <div class="card-header">
+              <h3 class="card-title">
+                Laporan Periode: <b><?= date('d-m-Y', strtotime($tgl_awal)); ?></b> s/d <b><?= date('d-m-Y', strtotime($tgl_akhir)); ?></b>
+              </h3>
+
             </div>
 
+
             <div class="card-body">
+              
+              <div class="d-flex justify-content-start align-items-center mb-3">
+                    <a href="./?p=add_pg" class="btn btn-success space-right me-2">
+                        <i class="bi bi-plus-circle"></i> Tambah Data
+                    </a>
+              </div>
+
               <table class="table table-bordered table-striped table-hover">
                 <thead class="table-light"> 
                   <tr class="text-center align-middle"> 
@@ -101,14 +149,14 @@ foreach($q_saldo as $row){
 
                   foreach($data as $d){
                   ?>
-                  <tr class="align-middle"> 
-                    <td class="text-center"><?= $no++; ?></td>
+                  <tr class="text-center align-middle"> 
+                    <td><?= $no++; ?></td>
                     
-                    <td class="text-center"><?= date('d-m-Y', strtotime($d['tanggal'])); ?></td>
+                    <td><?= date('d-m-Y', strtotime($d['tanggal'])); ?></td>
                     
                     <td><?= $d['keterangan']; ?></td>
                     
-                    <td class="text-center">
+                    <td>
                         <?php if($d['jenis'] == 'setor'){ ?>
                             <span class="badge bg-success">Setor</span>
                         <?php } else { ?>
@@ -116,7 +164,7 @@ foreach($q_saldo as $row){
                         <?php } ?>
                     </td>
 
-                    <td class="text-end text-success fw-bold">
+                    <td>>
                         <?php 
                         if($d['jenis'] == 'setor'){
                             echo "Rp " . number_format($d['jumlah'], 0, ',', '.');
@@ -126,7 +174,7 @@ foreach($q_saldo as $row){
                         ?>
                     </td>
 
-                    <td class="text-end text-danger fw-bold">
+                    <td>>
                         <?php 
                         if($d['jenis'] == 'tarik'){
                             echo "Rp " . number_format($d['jumlah'], 0, ',', '.');
@@ -136,7 +184,7 @@ foreach($q_saldo as $row){
                         ?>
                     </td>
 
-                    <td class="text-center">
+                    <td>
                         <a href="?p=edit_pg&id=<?= $d['id']; ?>" class="btn btn-sm btn-warning">Edit</a>
                         <a href="?p=hapus_pg&id=<?= $d['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</a>
                     </td>

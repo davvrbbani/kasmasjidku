@@ -10,7 +10,10 @@ if (isset($_POST['update'])) {
     $jenis = $_POST['jenis'];
     $jumlah = $_POST['jumlah'];
 
-    $sql = "UPDATE pengembangan SET tanggal='$tanggal',donatur='$donatur',jenis='$jenis',jumlah='$jumlah'
+
+
+    $sql = "UPDATE pengembangan SET tanggal='$tanggal',keterangan='$keterangan',jenis='$jenis',jumlah='$jumlah'
+
             WHERE id='$id'";
     $update = $konek->query($sql);
 
@@ -25,11 +28,19 @@ if (isset($_POST['update'])) {
 <div class="app-content-header">
     <div class="container-fluid">
         <div class="row">
+<<<<<<< HEAD
             <div class="col-sm-6"><h3 class="mb-0">Edit pengembangan masjid</h3></div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item active">Edit pengembangan masjid</li>
+=======
+            <div class="col-sm-6"><h3 class="mb-0">Edit Transaksi Pengembangan</h3></div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Edit Transaksi Pengembangan</li>
+>>>>>>> 8c0bd3e1ee951e2d9d2f954a2fda7c647d31427a
                 </ol>
             </div>
         </div>
@@ -42,7 +53,11 @@ if (isset($_POST['update'])) {
             <div class="col-12">
             <div class="card">
                 <div class="card-header">
+<<<<<<< HEAD
                     <h3 class="card-title">Edit pengembangan masjid</h3>
+=======
+                    <h3 class="card-title">Edit Transaksi</h3>
+>>>>>>> 8c0bd3e1ee951e2d9d2f954a2fda7c647d31427a
                 </div>
 
                 <div class="card-body">
@@ -71,7 +86,7 @@ if (isset($_POST['update'])) {
                             </tr>
                             <tr>
                                 <td></td>
-                                <td><input type="submit" name="update" value="update" class="btn btn-primary"><a href="./?p=TM" class="btn btn-info">Kembali</a></td>
+                                <td><input type="submit" name="update" value="update" class="btn btn-primary"><a href="./?p=PG" class="btn btn-info">Kembali</a></td>
                             </tr>
                         </table>
                     </form>

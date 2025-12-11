@@ -90,10 +90,17 @@ foreach ($q_tab as $tb) {
 
         <div class="col-lg-3 col-6">
           <div class="card text-dark bg-warning mb-3">
+
             <div class="card-header">Saldo pembangunan masjid</div>
             <div class="card-body">
               <h4 class="card-title fw-bold">Rp <?= number_format($saldo_pengembangan, 0, ',', '.') ?></h4>
               <p class="card-text"><small>Aset di Rekening</small></p>
+
+            <div class="card-header">Sisa Dana Pengembangan</div>
+            <div class="card-body">
+              <h4 class="card-title fw-bold">Rp <?= number_format($saldo_tabungan, 0, ',', '.') ?></h4>
+              <p class="card-text" ><small>Total Dana</small></p>
+
             </div>
           </div>
         </div>
