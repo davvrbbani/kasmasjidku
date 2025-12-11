@@ -8,17 +8,17 @@ switch ($p) {
     case 'LPC':
         require_once "Laporan/laporan_print.php";
         break;
-    case 'TM':
-        include "Tabungan/tabungan.php";
+    case 'PG':
+        include "Pengembangan/pengembangan.php";
     break;
-    case 'add_tm':
-        require_once "Tabungan/add_tabungan.php";
+    case 'add_pg':
+        require_once "Pengembangan/add_pengembangan.php";
         break;
-    case 'edit_tm':
-        require_once "Tabungan/edit_tabungan.php";
+    case 'edit_pg':
+        require_once "Pengembangan/edit_pengembangan.php";
         break;
-    case 'hapus_tm':
-        require_once "Tabungan/hapus_tabungan.php";
+    case 'hapus_pg':
+        require_once "Pengembangan/hapus_pengembangan.php";
         break;
     case 'TS':
         require_once "Transaksi/transaksi.php";

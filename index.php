@@ -1,9 +1,12 @@
 <?php
-require_once "config.php"; 
+// --- BAGIAN LOGIC PHP (Tetap sama) ---
+require_once "config.php"; // Pastikan path ini benar!
 
 $total_masuk = 0;
 $total_keluar = 0;
+$pengembangan_masjid = 0;
 
+// Hitung Saldo Total
 $qsaldo = $konek->query("SELECT * FROM transaksi");
 while ($row = mysqli_fetch_array($qsaldo)){
     $idkat = $row['sub_kategori_id'];
@@ -17,6 +20,7 @@ while ($row = mysqli_fetch_array($qsaldo)){
     }
 }
 $saldo_akhir = $total_masuk - $total_keluar;
+$q_pengembangan = $konek->query("SELECT * FROM pengembangan");
 ?>
 
 <!DOCTYPE html>
@@ -29,13 +33,15 @@ $saldo_akhir = $total_masuk - $total_keluar;
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <style>
-        .hero-section {
-            background-color: #198754;
-            color: white;
-            padding: 30px 0;
-            margin-bottom: 30px;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
+    .hero-section {
+        background: linear-gradient(135deg, #00A86B, #000000), url('assets/masjid_bg.png');
+        background-size: cover;
+        background-repeat: no-repeat; 
+        background-position: center; 
+        padding: 30px 0;
+        margin-bottom: 30px;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
         }
     </style>
 </head>
@@ -56,12 +62,12 @@ $saldo_akhir = $total_masuk - $total_keluar;
 
     <section class="hero-section text-center">
         <div class="container">
-            <h2 class="fw-bold">Laporan Keuangan Masjid</h2>
-            <p class="lead mb-4">Transparansi Dana Umat</p>
+            <h2 class="fw-bold" style="color: white;">Laporan Keuangan Masjid</h2>
+            <p class="lead mb-4" style="color: white">Transparansi Dana Umat</p>
             
             <div class="row justify-content-center g-3">
                 <div class="col-md-4 col-10">
-                    <div class="card text-success fw-bold shadow-sm">
+                    <div class="card text-white bg-success fw-bold shadow-sm">
                         <div class="card-body">
                             <div class="small text-muted text-uppercase">Total Pemasukan</div>
                             <div class="fs-4">Rp <?= number_format($total_masuk, 0, ',', '.' )?></div>
@@ -71,7 +77,7 @@ $saldo_akhir = $total_masuk - $total_keluar;
                 </div>
 
                 <div class="col-md-4 col-10">
-                    <div class="card text-danger fw-bold shadow-sm">
+                    <div class="card text-white bg-danger fw-bold shadow-sm">
                         <div class="card-body">
                             <div class="small text-muted text-uppercase">Total Pengeluaran</div>
                             <div class="fs-4">Rp <?= number_format($total_keluar, 0, ',', '.' )?></div>
@@ -91,6 +97,17 @@ $saldo_akhir = $total_masuk - $total_keluar;
                 </div>
             </div>
         </div>
+
+        <div class="row justify-content-center g-3">
+                <div class="col-md-4 col-10">
+                    <div class="card text-white bg-warning fw-bold shadow-sm">
+                        <div class="card-body">
+                            <div class="small text-muted text-uppercase">Dana Pengembangan Masjid</div>
+                            <div class="fs-4">Rp <?= number_format($pengembangan_masjid, 0, ',', '.' )?></div>
+                            <i class="bi bi-arrow-down-circle-fill text-success fs-1 position-absolute top-0 end-0 me-3 mt-3 opacity-25"></i>
+                        </div>
+                    </div>
+                </div>
     </section>
 
     <div class="container mb-5">
@@ -115,14 +132,15 @@ $saldo_akhir = $total_masuk - $total_keluar;
                                 </thead>
                                 <tbody>
                                     <?php
+                                    // Query 10 Data Terakhir
                                     $q_tabel = $konek->query("SELECT * FROM transaksi ORDER BY tanggal DESC LIMIT 10");
                                     
-                                    foreach ($q_tabel as $d) {
-
-                                        $id_kat = $d['sub_kategori_id'];
-                                        $kat = $konek->query("SELECT * FROM sub_kategori WHERE id='$id_kat'")->fetch_assoc();
-                                        $nama  = $kat['nama_sub_kategori'] ?? '-'; 
-                                        $jenis = $kat['jenis'] ?? '';
+                                    while($d = mysqli_fetch_array($q_tabel)){
+                                        $id = $d['sub_kategori_id'];
+                                        $q_kat = $konek->query("SELECT * FROM sub_kategori WHERE id='$id'");
+                                        $kat   = mysqli_fetch_array($q_kat);
+                                        $nama  = $kat['nama_sub_kategori']; 
+                                        $jenis = $kat['jenis'];
                                     ?>
                                     <tr>
                                         <td><?= date('d M Y', strtotime($d['tanggal'])) ?></td>
@@ -136,26 +154,14 @@ $saldo_akhir = $total_masuk - $total_keluar;
                                         <td><?= $d['keterangan'] ?></td>
                                         
                                         <td class="text-end text-success">
-                                            <?php 
-                                            if($jenis == 'masuk') {
-                                                echo "Rp " . number_format($d['jumlah'], 0, ',', '.');
-                                            } else {
-                                                echo "-"; 
-                                            }
-                                            ?>
+                                            <?php if($jenis == 'masuk') echo "Rp " . number_format($d['jumlah']); else echo "-"; ?>
                                         </td>
                                         
                                         <td class="text-end text-danger">
-                                            <?php 
-                                            if($jenis == 'keluar') {
-                                                echo "Rp " . number_format($d['jumlah'], 0, ',', '.');
-                                            } else {
-                                                echo "-"; 
-                                            }
-                                            ?>
+                                            <?php if($jenis == 'keluar') echo "Rp " . number_format($d['jumlah']); else echo "-"; ?>
                                         </td>
                                     </tr>
-                                    <?php }?>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -175,6 +181,18 @@ $saldo_akhir = $total_masuk - $total_keluar;
                     <div class="card-body d-flex auto">
                         <canvas id="myChart"></canvas>
                     </div>
+                <div class="text-center mt-3">
+                    <button onclick="window.print()" class="btn btn-outline-success btn-sm">
+                        <i class="bi bi-printer"></i> Cetak Grafik Pemasukan & Pengeluaran
+                    </button>
+                </div>
+                <div class="mt-4">
+                    <canvas id="chartPengembangan"></canvas>
+                </div>
+                <div class="text-center mt-3 mb-3">
+                    <button onclick="window.print()" class="btn btn-outline-success btn-sm">
+                        <i class="bi bi-printer"></i> Cetak Grafik Dana Pengembangan
+                    </button>
                 </div>
             </div>
 
@@ -203,6 +221,29 @@ $saldo_akhir = $total_masuk - $total_keluar;
             ],
             borderWidth: 1
           }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+      });
+      const ctx2 = document.getElementById('chartPengembangan');
+
+      new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: ['Dana Pengembangan'],
+            datasets: [{
+            label: 'Total Dana Pengembangan',
+            data: [<?= $pengembangan_masjid ?>],
+            backgroundColor: ['#ffc107'], // warna kuning
+            borderWidth: 1
+        }]
         },
         options: {
             responsive: true,

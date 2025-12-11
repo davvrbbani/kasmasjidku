@@ -4,19 +4,19 @@ include "../config.php";
 $keyword = $_POST['keyword'] ?? '';
 
 if(!empty($keyword)){
-    $data = $konek->query("SELECT * FROM tabungan WHERE keterangan LIKE '%$keyword%' ORDER BY tanggal DESC");
+    $data = $konek->query("SELECT * FROM pengembangan WHERE keterangan LIKE '%$keyword%' ORDER BY tanggal DESC");
 } else {
-    $data = $konek->query("SELECT * FROM tabungan ORDER BY tanggal DESC");
+    $data = $konek->query("SELECT * FROM pengembangan ORDER BY tanggal DESC");
 }
 
-$q_saldo = $konek->query("SELECT * FROM tabungan");
-$total_tabungan = 0;
+$q_saldo = $konek->query("SELECT * FROM pengembangan");
+$total = 0;
 
 foreach($q_saldo as $row){
     if($row['jenis'] == 'setor'){
-        $total_tabungan += $row['jumlah'];
+        $total += $row['jumlah'];
     } else {
-        $total_tabungan -= $row['jumlah'];
+        $total -= $row['jumlah'];
     }
 }
 ?>
@@ -25,11 +25,11 @@ foreach($q_saldo as $row){
   <div class="app-content-header">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-6"><h3 class="mb-0">Rekening / Tabungan Masjid</h3></div>
+        <div class="col-sm-6"><h3 class="mb-0">Transaksi Pengembangan Masjid</h3></div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-end">
             <li class="breadcrumb-item"><a href="index.php">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Tabungan</li>
+            <li class="breadcrumb-item active" aria-current="page">Transaksi Pengembangan Masjid</li>
           </ol>
         </div>
       </div>
@@ -44,8 +44,8 @@ foreach($q_saldo as $row){
               <div class="alert alert-info d-flex align-items-center">
                   <i class="bi bi-wallet2 fs-2 me-3"></i>
                   <div>
-                      <h5 class="mb-0">Total Aset / Saldo Tabungan:</h5>
-                      <h2 class="mb-0 fw-bold">Rp <?= number_format($total_tabungan, 0, ',', '.'); ?></h2>
+                      <h5 class="mb-0">Total Aset / Saldo</h5>
+                      <h2 class="mb-0 fw-bold">Rp <?= number_format($total, 0, ',', '.'); ?></h2>
                   </div>
               </div>
           </div>
@@ -56,11 +56,11 @@ foreach($q_saldo as $row){
           <div class="card">
             
             <div class="card-header">
-              <h3 class="card-title" style="font-weight: bold">Riwayat Setor & Tarik Tunai</h3>
+              <h3 class="card-title" style="font-weight: bold">Riwayat Setor & Tarik</h3>
 
               <div class="d-flex justify-content-end align-items-center mt-3">
                   <a href="?p=add_tm" class="btn btn-success me-2">
-                      <i class="bi bi-plus-circle"></i> Transaksi Tabungan
+                      <i class="bi bi-plus-circle"></i> Tambah Data
                   </a>
 
                   <form class="d-flex" method="POST" action="">
@@ -99,9 +99,9 @@ foreach($q_saldo as $row){
                     
                     <td class="text-center">
                         <?php if($d['jenis'] == 'setor'){ ?>
-                            <span class="badge bg-success">Setor Tunai</span>
+                            <span class="badge bg-success">Setor</span>
                         <?php } else { ?>
-                            <span class="badge bg-danger">Penarikan</span>
+                            <span class="badge bg-danger">Tarik</span>
                         <?php } ?>
                     </td>
 
@@ -126,14 +126,8 @@ foreach($q_saldo as $row){
                     </td>
 
                     <td class="text-center">
-                      <div class="btn-group btn-group-sm"> 
-                        <a href="?p=edit_tm&id=<?= $d['id']; ?>" class="btn btn-warning" title="Edit">
-                            <i class="bi bi-pencil-square">Edit</i> 
-                        </a>
-                        <a href="?p=hapus_tm&id=<?= $d['id']; ?>" class="btn btn-danger" onclick="return confirm('Hapus data ini?')" title="Hapus">
-                            <i class="bi bi-trash">Hapus</i>
-                        </a>
-                      </div>
+                        <a href="?p=edit_pg&id=<?= $d['id']; ?>" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="?p=hapus_pg&id=<?= $d['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</a>
                     </td>
 
                   </tr>
@@ -142,7 +136,7 @@ foreach($q_saldo as $row){
                   <?php 
                   if($data->num_rows == 0): 
                   ?>
-                      <tr><td colspan="7" class="text-center text-muted fst-italic py-3">Belum ada riwayat tabungan.</td></tr>
+                      <tr><td colspan="7" class="text-center text-muted fst-italic py-3">Belum ada riwayat Pengeluaran atau Pemasukan</td></tr>
                   <?php endif; ?>
                 </tbody>
               </table>

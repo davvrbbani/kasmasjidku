@@ -26,7 +26,7 @@ foreach ($q_transaksi as $t) {
 
 $saldo_akhir = $total_masuk - $total_keluar;
 
-$q_tab = $konek->query("SELECT * FROM tabungan"); 
+$q_tab = $konek->query("SELECT * FROM pengembangan"); 
 $saldo_tabungan = 0;
 
 foreach ($q_tab as $tb) {

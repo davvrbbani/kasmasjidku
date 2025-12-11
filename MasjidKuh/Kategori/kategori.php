@@ -42,12 +42,14 @@ if (isset($_POST['keyword'])) {
               </table>
             </div>
             <div class="card-body">
-                    <a href="./?p=add_ktgr" class="btn btn-success">
+              <div class="d-flex justify-content-start align-items-center mb-3">
+                    <a href="./?p=add_ktgr" class="btn btn-success space-right me-2">
                         <i class="bi bi-plus-circle"></i> Tambah Kategori
                     </a>
                     <a href="./?p=add_sub" class="btn btn-success">
                         <i class="bi bi-plus-circle"></i> Tambah Sub Kategori
                     </a>
+              </div>
                 <table class="table table-bordered table-hover table-striped">
                     <thead class="table-light">
                     <tr class="text-center align-middle">

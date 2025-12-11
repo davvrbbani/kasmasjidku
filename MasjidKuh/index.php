@@ -183,9 +183,9 @@ if (!isset(($_SESSION['user'])) or $_SESSION['level'] != 'admin'){
               </li>
 
               <li class="nav-item">
-                <a href="./?p=TM" class="nav-link">
+                <a href="./?p=PG" class="nav-link">
                   <i class="nav-icon bi bi-bank2"></i>
-                  <p>Tabungan</p>
+                  <p>Pengembangan Masjid</p>
                 </a>
               </li>
 

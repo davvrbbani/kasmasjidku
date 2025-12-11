@@ -153,7 +153,7 @@ if($id_user > 0){
         <table width="100%">
             <tr>
                 <td width="70%"></td> 
-                <td width="30%" align="center">
+                <td width="30%" class="align: center;">
                     <p style="margin-bottom: 60px;">
                         Purbalingga, <?= date('d F Y') ?> <br>
                         Mengetahui,<br>Bendahara Masjid
