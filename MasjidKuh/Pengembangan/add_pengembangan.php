@@ -12,9 +12,9 @@ if (isset($_POST['simpan'])) {
     $simpan = $konek->query($sql);
 
     if ($simpan) {
-        echo "<script>alert('Data Berhasil Disimpan'); window.location='?p=TM'</script>";
+        echo "<script>alert('Data Berhasil Disimpan'); window.location='?p=PG'</script>";
     } else {
-        echo "<script>alert('Data Gagal Disimpan'); window.location='?p=add_tm'</script>";
+        echo "<script>alert('Data Gagal Disimpan'); window.location='?p=add_pg'</script>";
     }
 }
 ?>
@@ -22,11 +22,11 @@ if (isset($_POST['simpan'])) {
 <div class="app-content-header">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-6"><h3 class="mb-0">Tambah Tabungan</h3></div>
+            <div class="col-sm-6"><h3 class="mb-0">Tambah Transaksi Pengembangan</h3></div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Tambah Tabungan</li>
+                    <li class="breadcrumb-item active">Tambah Transaksi Pengembangan</li>
                 </ol>
             </div>
         </div>
@@ -39,8 +39,8 @@ if (isset($_POST['simpan'])) {
             <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Tambah Tabungan</h3>
-                    <a href="./?p=TM" class="btn btn-secondary btn-md float-end">
+                    <h3 class="card-title">Tambah Data</h3>
+                    <a href="./?p=PG" class="btn btn-secondary btn-md float-end">
                         <i class="bi bi-arrow-left-circle"></i>Kembali</a>
                 </div>
 
@@ -53,20 +53,21 @@ if (isset($_POST['simpan'])) {
                             </tr>
                             <tr>
                                 <td>Keterangan</td>
-                                <td><input type="text" name="keterangan" class="form-control" required></td>
+                                <td><input type="text" name="keterangan" class="form-control" placeholder="Masukkan Keterangan..."></td>
                             </tr>
                             <tr>
                                 <td>Jenis Transaksi</td>
                                 <td>
                                     <select name="jenis" class="form-control" required>
+                                        <option value="">-- Pilih Jenis Transaksi --</option>
                                         <option value="setor">setor(masuk)</option>
                                         <option value="tarik">tarik (keluar)</option>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
-                                <td>Jumlah</td>
-                                <td><input type="number" name="jumlah" class="form-control" required></td>
+                                <td>Jumlah (Rp.)</td>
+                                <td><input type="number" name="jumlah" class="form-control" placeholder="Jumlah dalam satuan Rupiah" required></td>
                             </tr>
                             <tr>
                                 <td><input type="submit" name="simpan" value="Simpan" class="btn btn-primary"></td>
