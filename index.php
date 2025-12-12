@@ -50,18 +50,23 @@ while ($row_peng = mysqli_fetch_array($q_pengembangan)){
         }
 
         .hero-section {
-            background: linear-gradient(135deg, #00A86B, #000000), url('assets/masjid_bg.png');
+            background: url('assets/img/masjidku.jpg');
             background-size: cover;
             background-repeat: no-repeat; 
-            background-position: center; 
-            padding: 50px 0 80px 0; 
+            background-position: center center; 
+            padding: 80px 0 100px 0; 
             margin-bottom: 0;
             border-bottom-left-radius: 30px;
             border-bottom-right-radius: 30px;
+            position: relative;
+        }
+
+        .hero-section h2, .hero-section p {
+            text-shadow: 0px 2px 4px rgba(0,0,0,0.6);
         }
 
         .stats-container {
-            margin-top: -60px; 
+            margin-top: -80px; 
         }
 
         .card-stat {
@@ -93,16 +98,17 @@ while ($row_peng = mysqli_fetch_array($q_pengembangan)){
         }
 
         .navbar {
-            background: linear-gradient(to right, #006642, #00A86B) !important;
+            background: linear-gradient(to bottom, rgba(0, 102, 66, 0.95), rgba(5, 64, 42, 0.95)) !important;
+            backdrop-filter: blur(5px);
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm fixed-top">
         <div class="container">
         <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
-            <img src="assets/img/Masjid logo.jpeg" alt="Logo Masjid" width="40" height="40" class="d-inline-block align-text-top me-2">
+            <img src="assets/img/Masjid logo.jpeg" alt="Logo Masjid" width="40" height="40" class="d-inline-block align-text-top me-2" style="border-radius: 50%">
             
             MASJID AL-IKHLAS
         </a>
@@ -115,8 +121,7 @@ while ($row_peng = mysqli_fetch_array($q_pengembangan)){
     </nav>
 
     <section class="hero-section text-center text-white">
-        <div class="container">
-            <h2 class="fw-bold display-5 mb-2">Laporan Keuangan Masjid</h2>
+        <div class="container pt-4"> <h2 class="fw-bold display-5 mb-2">Laporan Keuangan Masjid</h2>
             <p class="lead opacity-75">Transparansi Dana Umat & Akuntabilitas</p>
         </div>
     </section>
@@ -194,7 +199,6 @@ while ($row_peng = mysqli_fetch_array($q_pengembangan)){
                                         $id = $d['sub_kategori_id'];
                                         $q_kat = $konek->query("SELECT * FROM sub_kategori WHERE id='$id'");
                                         
-                                        // Mencegah error jika kategori dihapus
                                         if($q_kat && mysqli_num_rows($q_kat) > 0) {
                                             $kat   = mysqli_fetch_array($q_kat);
                                             $nama  = $kat['nama_sub_kategori']; 
