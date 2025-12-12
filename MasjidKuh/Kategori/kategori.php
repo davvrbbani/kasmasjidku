@@ -43,7 +43,7 @@ if (isset($_POST['keyword'])) {
             </div>
             <div class="card-body">
               <div class="d-flex justify-content-start align-items-center mb-3">
-                    <a href="./?p=add_ktgr" class="btn btn-success space-right me-2">
+                    <a href="./?p=add_kat" class="btn btn-success space-right me-2">
                         <i class="bi bi-plus-circle"></i> Tambah Kategori
                     </a>
                     <a href="./?p=add_sub" class="btn btn-success">

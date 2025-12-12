@@ -35,6 +35,9 @@ if (isset($_POST['simpan'])) {
             <div class="col-12">
             <div class="card">
                 <div class="card-header">
+                    <a href="./?p=KT" class="btn btn-secondary btn-md float-end">
+                <i class="bi bi-arrow-left-circle"></i> Kembali
+              </a>
                     <h3 class="card-title">Tambah Kategori Utama</h3>
                 </div>
 
@@ -46,10 +49,8 @@ if (isset($_POST['simpan'])) {
                                 <td><input type="text" name="nama_kategori" class="form-control" placeholder="Masukkan Kategori Di sini!" required></td>
                             </tr>
                             <tr>
-                                <td></td>
                                 <td>
-                                    <a href="./?p=KT" class="btn btn-secondary">Kembali</a>
-                                    <input type="submit" name="simpan" value="Simpan" class="btn btn-success">
+                                    <input type="submit" name="simpan" value="Simpan" class="btn btn-primary">
                                 </td>
                             </tr>
                         </table>
