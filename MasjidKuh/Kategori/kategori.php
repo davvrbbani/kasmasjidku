@@ -105,7 +105,7 @@ if (isset($_POST['keyword'])) {
                                     <td><?= $nama_kategori; ?></td>
                                     <td class="text-danger fst-italic"> - (Kosong) </td> 
                                     <td class="text-center"> - </td>
-                                    <td class="text-center"> - </td>
+                                    <td class="text-center"><a href="./?p=hps_kat&id=<?= $sub['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Hapus?')">Hapus</a></td>
                                 </tr>
                         <?php
                             } 
