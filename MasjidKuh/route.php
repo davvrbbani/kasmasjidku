@@ -38,7 +38,7 @@ switch ($p) {
     case 'KT':
         require_once "Kategori/kategori.php";
         break;
-    case 'add_ktgr':
+    case 'add_kat':
         require_once "Kategori/add_kategori.php";
         break;
     case 'add_sub':

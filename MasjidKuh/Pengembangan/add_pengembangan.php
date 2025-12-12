@@ -22,19 +22,11 @@ if (isset($_POST['simpan'])) {
 <div class="app-content-header">
     <div class="container-fluid">
         <div class="row">
-<<<<<<< HEAD
-            <div class="col-sm-6"><h3 class="mb-0">Tambah pengembangan masjid</h3></div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Tambah pengembangan masjid</li>
-=======
             <div class="col-sm-6"><h3 class="mb-0">Tambah Transaksi Pengembangan</h3></div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item active">Tambah Transaksi Pengembangan</li>
->>>>>>> 8c0bd3e1ee951e2d9d2f954a2fda7c647d31427a
                 </ol>
             </div>
         </div>
