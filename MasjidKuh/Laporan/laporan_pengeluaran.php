@@ -106,11 +106,11 @@ $tgl_akhir = $_POST['tgl_akhir'] ?? date('Y-m-d');
                             <small class="text-muted"><?= $d['keterangan']; ?></small>
                         </td>
                         
-                        <td class="text-end">
+                        <td class="text-center">
                             <?= ($pemasukan_row > 0) ? number_format($pemasukan_row, 0, ',', '.') : '-'; ?>
                         </td>
                         
-                        <td class="text-end">
+                        <td class="text-center">
                             <?= ($pengeluaran_row > 0) ? number_format($pengeluaran_row, 0, ',', '.') : '-'; ?>
                         </td>
                     </tr>
@@ -126,8 +126,8 @@ $tgl_akhir = $_POST['tgl_akhir'] ?? date('Y-m-d');
                 <tfoot>
                     <tr class="fw-bold bg-light">
                         <td colspan="3" class="text-center">TOTAL</td>
-                        <td class="text-end text-success"><?= number_format($total_masuk, 0, ',', '.'); ?></td>
-                        <td class="text-end text-danger"><?= number_format($total_keluar, 0, ',', '.'); ?></td>
+                        <td class="text-center text-success"><?= number_format($total_masuk, 0, ',', '.'); ?></td>
+                        <td class="text-center text-danger"><?= number_format($total_keluar, 0, ',', '.'); ?></td>
                     </tr>
                     <tr class="fw-bold bg-dark text-white">
                         <td colspan="3" class="text-center">SALDO AKHIR (Pemasukan - Pengeluaran)</td>

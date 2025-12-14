@@ -127,7 +127,7 @@ foreach($q_saldo as $row){
                     
                     <td><?= date('d-m-Y', strtotime($d['tanggal'])); ?></td>
                     
-                    <td><?= $d['keterangan']; ?></td>
+                    <td class="text-start"><?= $d['keterangan']; ?></td>
                     
                     <td>
                         <?php if($d['jenis'] == 'setor'){ ?>

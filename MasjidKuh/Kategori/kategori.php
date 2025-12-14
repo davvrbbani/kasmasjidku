@@ -82,7 +82,7 @@ if (isset($_POST['keyword'])) {
                                     <td><?= $nama_kategori; ?></td> 
                                     <td><?= $sub['nama_sub_kategori']; ?></td> 
                                     
-                                    <td class="text-center">
+                                    <td class="text-center" style="width: 10%;">
                                         <?php if($sub['jenis'] == 'masuk'){ ?>
                                             <span class="badge bg-success">Pemasukan</span>
                                         <?php } else { ?>
@@ -90,9 +90,9 @@ if (isset($_POST['keyword'])) {
                                         <?php } ?>
                                     </td>
                                     
-                                    <td class="text-center">
+                                    <td class="text-center" style="width: 10%;">
                                         <a href="./?p=edit_kat&id=<?= $sub['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                        <a href="./?p=hps_kat&id=<?= $sub['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Hapus?')">Hapus</a>
+                                        <a href="./?p=hps_kat&id=<?= $sub['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
                                     </td>
                                 </tr>
                         <?php
@@ -105,7 +105,7 @@ if (isset($_POST['keyword'])) {
                                     <td><?= $nama_kategori; ?></td>
                                     <td class="text-danger fst-italic"> - (Kosong) </td> 
                                     <td class="text-center"> - </td>
-                                    <td class="text-center"><a href="./?p=hps_kat&id=<?= $sub['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Hapus?')">Hapus</a></td>
+                                    <td class="text-center"><a href="./?p=hps_kat&id=<?= $sub['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin mengahapus?')">Hapus</a></td>
                                 </tr>
                         <?php
                             } 

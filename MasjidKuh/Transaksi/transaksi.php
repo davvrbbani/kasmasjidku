@@ -86,7 +86,7 @@ if(empty($keyword)){
                     
                     <td><?= $d['keterangan']; ?></td>
                     
-                    <td class="text-end fw-bold">
+                    <td class="text-center fw-bold">
                         Rp <?= number_format($d['jumlah'], 0, ',', '.'); ?>
                     </td>
                     
