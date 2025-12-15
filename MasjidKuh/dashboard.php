@@ -1,39 +1,49 @@
 <?php
 include "../config.php";
 
+$bulan_ini = date('m');
+$tahun_ini = date('Y');
+$nama_bulan = [
+    '01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April',
+    '05' => 'Mei',     '06' => 'Juni',     '07' => 'Juli',  '08' => 'Agustus',
+    '09' => 'September','10' => 'Oktober', '11' => 'November','12' => 'Desember'
+];
+$label_bulan = $nama_bulan[$bulan_ini] . " " . $tahun_ini;
 
-$total_masuk  = 0;
-$total_keluar = 0;
-$saldo_akhir  = 0;
 
-$q_transaksi = $konek->query("SELECT * FROM transaksi");
 
-foreach ($q_transaksi as $t) {
-    $id_sub = $t['sub_kategori_id'];
-    $jumlah = $t['jumlah'];
+$query_masuk_bln = "SELECT SUM(jumlah) AS total FROM transaksi 
+                    WHERE sub_kategori_id IN (SELECT id FROM sub_kategori WHERE jenis = 'masuk')
+                    AND MONTH(tanggal) = '$bulan_ini' AND YEAR(tanggal) = '$tahun_ini'";
+$d_masuk = mysqli_fetch_assoc($konek->query($query_masuk_bln));
+$total_masuk = $d_masuk['total'] ?? 0;
 
-    $d_jenis = $konek->query("SELECT jenis FROM sub_kategori WHERE id='$id_sub'")->fetch_assoc();
-    $jenis_transaksi = $d_jenis['jenis'] ?? '';
+$query_keluar_bln = "SELECT SUM(jumlah) AS total FROM transaksi 
+                     WHERE sub_kategori_id IN (SELECT id FROM sub_kategori WHERE jenis = 'keluar')
+                     AND MONTH(tanggal) = '$bulan_ini' AND YEAR(tanggal) = '$tahun_ini'";
+$d_keluar = mysqli_fetch_assoc($konek->query($query_keluar_bln));
+$total_keluar = $d_keluar['total'] ?? 0;
 
-    if ($jenis_transaksi == 'masuk') {
-        $total_masuk += $jumlah;
-    } else {
-        $total_keluar += $jumlah;
-    }
+$q_all_masuk = "SELECT SUM(jumlah) AS total FROM transaksi 
+                WHERE sub_kategori_id IN (SELECT id FROM sub_kategori WHERE jenis = 'masuk')";
+$all_masuk = mysqli_fetch_assoc($konek->query($q_all_masuk))['total'] ?? 0;
+
+$q_all_keluar = "SELECT SUM(jumlah) AS total FROM transaksi 
+                 WHERE sub_kategori_id IN (SELECT id FROM sub_kategori WHERE jenis = 'keluar')";
+$all_keluar = mysqli_fetch_assoc($konek->query($q_all_keluar))['total'] ?? 0;
+
+$saldo_akhir = $all_masuk - $all_keluar;
+
+if ($saldo_akhir < 0) {
+    $saldo_akhir = 0;
 }
 
-$saldo_akhir = $total_masuk - $total_keluar;
 
-$q_tab = $konek->query("SELECT * FROM pengembangan");
-$saldo_pengembangan = 0;
+$query_pengembangan = "SELECT SUM(CASE WHEN jenis = 'setor' THEN jumlah ELSE -jumlah END) AS total 
+                       FROM pengembangan";
+$d_pengembangan = mysqli_fetch_assoc($konek->query($query_pengembangan));
+$saldo_pengembangan = $d_pengembangan['total'] ?? 0;
 
-foreach ($q_tab as $tb) {
-    if ($tb['jenis'] == 'setor') {
-        $saldo_pengembangan += $tb['jumlah'];
-    } else {
-        $saldo_pengembangan -= $tb['jumlah'];
-    }
-}
 ?>
 
 <main class="app-main">
@@ -62,27 +72,27 @@ foreach ($q_tab as $tb) {
                         <div class="card-header">Saldo Kas Masjid</div>
                         <div class="card-body">
                             <h4 class="card-title fw-bold">Rp <?= number_format($saldo_akhir, 0, ',', '.') ?></h4>
-                            <p class="card-text"><small>Total Uang Tunai Saat Ini</small></p>
+                            <p class="card-text"><small>Total Uang Kas</small></p>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-3 col-6">
                     <div class="card text-white bg-success mb-3">
-                        <div class="card-header">Total Pemasukan</div>
+                        <div class="card-header">Pemasukan (<?= $label_bulan ?>)</div>
                         <div class="card-body">
                             <h4 class="card-title fw-bold">Rp <?= number_format($total_masuk, 0, ',', '.') ?></h4>
-                            <p class="card-text"><small>Akumulasi Uang Masuk</small></p>
+                            <p class="card-text"><small>Total Pemasukkan Bulan Ini</small></p>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-3 col-6">
                     <div class="card text-white bg-danger mb-3">
-                        <div class="card-header">Total Pengeluaran</div>
+                        <div class="card-header">Pengeluaran (<?= $label_bulan ?>)</div>
                         <div class="card-body">
                             <h4 class="card-title fw-bold">Rp <?= number_format($total_keluar, 0, ',', '.') ?></h4>
-                            <p class="card-text"><small>Akumulasi Uang Keluar</small></p>
+                            <p class="card-text"><small>Total Pengeluaran Bulan Ini</small></p>
                         </div>
                     </div>
                 </div>
@@ -92,7 +102,7 @@ foreach ($q_tab as $tb) {
                         <div class="card-header">Saldo Pembangunan</div>
                         <div class="card-body">
                             <h4 class="card-title fw-bold">Rp <?= number_format($saldo_pengembangan, 0, ',', '.') ?></h4>
-                            <p class="card-text"><small>Aset Dana Pengembangan</small></p>
+                            <p class="card-text"><small>Total Aset Terkumpul</small></p>
                         </div>
                     </div>
                 </div>
@@ -114,8 +124,6 @@ foreach ($q_tab as $tb) {
             </div>
 
         </div>
-
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -126,9 +134,9 @@ foreach ($q_tab as $tb) {
         new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Pemasukan', 'Pengeluaran', 'Saldo Akhir', 'Dana Pembangunan'],
+                labels: ['Pemasukan (Bln Ini)', 'Pengeluaran (Bln Ini)', 'Saldo Akhir (Total)', 'Dana Pembangunan'],
                 datasets: [{
-                    label: 'Nominal (Rp)',
+                    label: 'Nominal (Rupiah)',
                     data: [
                         <?= $total_masuk ?>,
                         <?= $total_keluar ?>,
@@ -136,10 +144,10 @@ foreach ($q_tab as $tb) {
                         <?= $saldo_pengembangan ?>,
                     ],
                     backgroundColor: [
-                        'rgba(25, 135, 84, 0.7)',  
-                        'rgba(220, 53, 69, 0.7)',  
-                        'rgba(13, 110, 253, 0.7)', 
-                        'rgba(255, 193, 7, 0.7)',  
+                        'rgba(25, 135, 84, 0.7)',  // Hijau
+                        'rgba(220, 53, 69, 0.7)',  // Merah
+                        'rgba(13, 110, 253, 0.7)', // Biru
+                        'rgba(255, 193, 7, 0.7)',  // Kuning
                     ],
                     borderColor: [
                         'rgba(25, 135, 84, 1)',
@@ -152,7 +160,7 @@ foreach ($q_tab as $tb) {
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false, 
+                maintainAspectRatio: false,
                 scales: {
                     y: {
                         beginAtZero: true
@@ -161,6 +169,20 @@ foreach ($q_tab as $tb) {
                 plugins: {
                     legend: {
                         display: false 
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(context.parsed.y);
+                                }
+                                return label;
+                            }
+                        }
                     }
                 }
             }

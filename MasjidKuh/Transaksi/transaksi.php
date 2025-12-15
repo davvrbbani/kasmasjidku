@@ -3,7 +3,7 @@ include "../config.php";
 
 $keyword = $_POST['keyword'] ?? '';
 if(empty($keyword)){
-    $data = $konek->query("SELECT * FROM transaksi ORDER BY tanggal DESC LIMIT 10");
+    $data = $konek->query("SELECT * FROM transaksi");
 } else {
     $data = $konek->query("SELECT * FROM transaksi WHERE keterangan LIKE '%$keyword%' ORDER BY tanggal DESC");
 }
