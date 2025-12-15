@@ -45,7 +45,9 @@ if(isset($_POST['update'])){
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Form Edit Data</h3>
-              <a href="./?p=KT" class="btn btn-secondary btn-sm float-end">Kembali</a>
+              <a href="./?p=KT" class="btn btn-secondary btn-md float-end">
+                <i class="bi bi-arrow-left-circle"></i> Kembali
+              </a>
             </div>
             <div class="card-body">
                 
@@ -98,7 +100,6 @@ if(isset($_POST['update'])){
                         </tr>
 
                         <tr>
-                            <td></td>
                             <td>
                                 <input type="submit" name="update" value="Simpan Perubahan" class="btn btn-primary">
                             </td>

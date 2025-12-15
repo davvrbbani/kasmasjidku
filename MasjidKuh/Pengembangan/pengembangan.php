@@ -94,6 +94,12 @@ foreach($q_saldo as $row){
           <div class="card">
 
 
+          <div class="card-header">
+              <h3 class="card-title">
+                Laporan Periode: <b><?= date('d-m-Y', strtotime($tgl_awal)); ?></b> s/d <b><?= date('d-m-Y', strtotime($tgl_akhir)); ?></b>
+              </h3>
+
+            </div>
 
 
             <div class="card-body">
@@ -122,7 +128,7 @@ foreach($q_saldo as $row){
                     
                     <td><?= date('d-m-Y', strtotime($d['tanggal'])); ?></td>
                     
-                    <td><?= $d['keterangan']; ?></td>
+                    <td class="text-start"><?= $d['keterangan']; ?></td>
                     
                     <td>
                         <?php if($d['jenis'] == 'setor'){ ?>

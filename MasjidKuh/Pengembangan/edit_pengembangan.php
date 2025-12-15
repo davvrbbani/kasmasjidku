@@ -28,6 +28,7 @@ if (isset($_POST['update'])) {
 <div class="app-content-header">
     <div class="container-fluid">
         <div class="row">
+<<<<<<< HEAD
 
             <div class="col-sm-6"><h3 class="mb-0">Edit pengembangan masjid</h3></div>
             <div class="col-sm-6">
@@ -35,6 +36,13 @@ if (isset($_POST['update'])) {
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item active">Edit pengembangan masjid</li>
 
+=======
+            <div class="col-sm-6"><h3 class="mb-0">Edit Transaksi Pengembangan</h3></div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-end">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Edit Transaksi Pengembangan</li>
+>>>>>>> e3f847c2b043ef2c9b79f6a11743aae5d942d592
                 </ol>
             </div>
         </div>
@@ -49,9 +57,10 @@ if (isset($_POST['update'])) {
                 <div class="card-header">
 
                     <a href="./?p=PG" class="btn btn-secondary btn-md float-end">
-                        <i class="bi bi-arrow-left-circle"></i>Kembali</a>  
+                <i class="bi bi-arrow-left-circle"></i> Kembali
+              </a>
+                    <h3 class="card-title">Edit Transaksi</h3>
 
-                </div>
 
                 <div class="card-body">
                     <form method="post">
@@ -78,8 +87,7 @@ if (isset($_POST['update'])) {
                                 <td><input type="number" name="jumlah" value="<?php echo $data['jumlah'];?>" class="form-control" required></td>
                             </tr>
                             <tr>
-                                <td></td>
-                                <td><input type="submit" name="update" value="update" class="btn btn-primary"><a href="./?p=PG" class="btn btn-info">Kembali</a></td>
+                                <td><input type="submit" name="update" value="update" class="btn btn-primary"></td>
                             </tr>
                         </table>
                     </form>

@@ -1,26 +1,30 @@
 <?php
-// --- BAGIAN LOGIC PHP (Tetap sama) ---
-require_once "config.php"; // Pastikan path ini benar!
+require_once "config.php"; 
 
 $total_masuk = 0;
 $total_keluar = 0;
 $pengembangan_masjid = 0;
 
-// Hitung Saldo Total
 $qsaldo = $konek->query("SELECT * FROM transaksi");
 while ($row = mysqli_fetch_array($qsaldo)){
     $idkat = $row['sub_kategori_id'];
     $qkat = $konek->query("SELECT * FROM sub_kategori WHERE id='$idkat'");
-    $dkat = mysqli_fetch_array($qkat);
-
-    if ($dkat['jenis'] == 'masuk'){
-        $total_masuk += $row['jumlah'];
-    } else {
-        $total_keluar += $row['jumlah'];
+    
+    if($qkat && mysqli_num_rows($qkat) > 0){
+        $dkat = mysqli_fetch_array($qkat);
+        if ($dkat['jenis'] == 'masuk'){
+            $total_masuk += $row['jumlah'];
+        } else {
+            $total_keluar += $row['jumlah'];
+        }
     }
 }
 $saldo_akhir = $total_masuk - $total_keluar;
+
 $q_pengembangan = $konek->query("SELECT * FROM pengembangan");
+while ($row_peng = mysqli_fetch_array($q_pengembangan)){
+    $pengembangan_masjid += $row_peng['jumlah']; 
+}
 ?>
 
 <!DOCTYPE html>
@@ -33,95 +37,153 @@ $q_pengembangan = $konek->query("SELECT * FROM pengembangan");
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <style>
-    .hero-section {
-        background: linear-gradient(135deg, #00A86B, #000000), url('assets/masjid_bg.png');
-        background-size: cover;
-        background-repeat: no-repeat; 
-        background-position: center; 
-        padding: 30px 0;
-        margin-bottom: 30px;
-        border-bottom-left-radius: 20px;
-        border-bottom-right-radius: 20px;
+        :root {
+            --primary-gradient: linear-gradient(135deg, #00A86B 0%, #004d32 100%);
+            --card-green: linear-gradient(135deg, #059669 0%, #064e3b 100%);
+            --card-red: linear-gradient(135deg, #dc2626 0%, #7f1d1d 100%);
+            --card-blue: linear-gradient(135deg, #0284c7 0%, #0c4a6e 100%);
+            --card-gold: linear-gradient(135deg, #d97706 0%, #78350f 100%);
+        }
+
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .hero-section {
+            background: url('assets/img/masjidku.jpg');
+            background-size: cover;
+            background-repeat: no-repeat; 
+            background-position: center center; 
+            padding: 80px 0 100px 0; 
+            margin-bottom: 0;
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            position: relative;
+        }
+
+        .hero-section h2, .hero-section p {
+            text-shadow: 0px 2px 4px rgba(0,0,0,0.6);
+        }
+
+        .stats-container {
+            margin-top: -80px; 
+        }
+
+        .card-stat {
+            border: none;
+            border-radius: 15px;
+            color: white;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-stat:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+        }
+
+        .bg-gradient-green { background: var(--card-green); }
+        .bg-gradient-red   { background: var(--card-red); }
+        .bg-gradient-blue  { background: var(--card-blue); }
+        .bg-gradient-gold  { background: var(--card-gold); }
+
+        .icon-bg {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 4rem;
+            opacity: 0.15;
+            transform: rotate(-15deg);
+        }
+
+        .navbar {
+            background: linear-gradient(to bottom, rgba(0, 102, 66, 0.95), rgba(5, 64, 42, 0.95)) !important;
+            backdrop-filter: blur(5px);
         }
     </style>
 </head>
-<body class="bg-light">
+<body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm fixed-top">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#">
-                <i class="bi bi-building me-2"></i> MASJID AL-IKHLAS
-            </a>
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+            <img src="assets/img/Masjid logo.jpeg" alt="Logo Masjid" width="40" height="40" class="d-inline-block align-text-top me-2" style="border-radius: 50%">
+            
+            MASJID AL-IKHLAS
+        </a>
             <div class="ms-auto">
-                <a href="login.php" class="btn btn-outline-light btn-sm px-4 rounded-pill">
+                <a href="login.php" class="btn btn-light btn-sm px-4 rounded-pill fw-bold text-success">
                     <i class="bi bi-box-arrow-in-right me-1"></i> Login Admin
                 </a>
             </div>
         </div>
     </nav>
 
-    <section class="hero-section text-center">
-        <div class="container">
-            <h2 class="fw-bold" style="color: white;">Laporan Keuangan Masjid</h2>
-            <p class="lead mb-4" style="color: white">Transparansi Dana Umat</p>
+    <section class="hero-section text-center text-white">
+        <div class="container pt-4"> <h2 class="fw-bold display-5 mb-2">Laporan Keuangan Masjid</h2>
+            <p class="lead opacity-75">Transparansi Dana Umat & Akuntabilitas</p>
+        </div>
+    </section>
+
+    <div class="container stats-container mb-5">
+        <div class="row justify-content-center g-4">
             
-            <div class="row justify-content-center g-3">
-                <div class="col-md-4 col-10">
-                    <div class="card text-white bg-success fw-bold shadow-sm">
-                        <div class="card-body">
-                            <div class="small text-muted text-uppercase">Total Pemasukan</div>
-                            <div class="fs-4">Rp <?= number_format($total_masuk, 0, ',', '.' )?></div>
-                            <i class="bi bi-arrow-down-circle-fill text-success fs-1 position-absolute top-0 end-0 me-3 mt-3 opacity-25"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 col-10">
-                    <div class="card text-white bg-danger fw-bold shadow-sm">
-                        <div class="card-body">
-                            <div class="small text-muted text-uppercase">Total Pengeluaran</div>
-                            <div class="fs-4">Rp <?= number_format($total_keluar, 0, ',', '.' )?></div>
-                            <i class="bi bi-arrow-up-circle-fill text-danger fs-1 position-absolute top-0 end-0 me-3 mt-3 opacity-25"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 col-10">
-                    <div class="card text-white bg-primary fw-bold shadow">
-                        <div class="card-body">
-                            <div class="small text-white-50 text-uppercase">Saldo Kas Saat Ini</div>
-                            <div class="fs-3">Rp <?= number_format($saldo_akhir, 0, ',', '.' )?></div>
-                            <i class="bi bi-wallet2 fs-1 position-absolute top-0 end-0 me-3 mt-3 opacity-25"></i>
-                        </div>
+            <div class="col-md-3 col-10">
+                <div class="card card-stat bg-gradient-green shadow">
+                    <div class="card-body p-4">
+                        <div class="small text-white-50 text-uppercase fw-bold ls-1">Total Pemasukan</div>
+                        <div class="fs-4 fw-bold mt-2">Rp <?= number_format($total_masuk, 0, ',', '.' )?></div>
+                        <i class="bi bi-arrow-down-circle-fill icon-bg"></i>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row justify-content-center g-3">
-                <div class="col-md-4 col-10">
-                    <div class="card text-white bg-warning fw-bold shadow-sm">
-                        <div class="card-body">
-                            <div class="small text-muted text-uppercase">Dana Pengembangan Masjid</div>
-                            <div class="fs-4">Rp <?= number_format($pengembangan_masjid, 0, ',', '.' )?></div>
-                            <i class="bi bi-arrow-down-circle-fill text-success fs-1 position-absolute top-0 end-0 me-3 mt-3 opacity-25"></i>
-                        </div>
+            <div class="col-md-3 col-10">
+                <div class="card card-stat bg-gradient-red shadow">
+                    <div class="card-body p-4">
+                        <div class="small text-white-50 text-uppercase fw-bold ls-1">Total Pengeluaran</div>
+                        <div class="fs-4 fw-bold mt-2">Rp <?= number_format($total_keluar, 0, ',', '.' )?></div>
+                        <i class="bi bi-arrow-up-circle-fill icon-bg"></i>
                     </div>
                 </div>
-    </section>
+            </div>
+
+            <div class="col-md-3 col-10">
+                <div class="card card-stat bg-gradient-blue shadow">
+                    <div class="card-body p-4">
+                        <div class="small text-white-50 text-uppercase fw-bold ls-1">Saldo Kas Saat Ini</div>
+                        <div class="fs-4 fw-bold mt-2">Rp <?= number_format($saldo_akhir, 0, ',', '.' )?></div>
+                        <i class="bi bi-wallet2 icon-bg"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-10">
+                <div class="card card-stat bg-gradient-gold shadow">
+                    <div class="card-body p-4">
+                        <div class="small text-white-50 text-uppercase fw-bold ls-1">Dana Pengembangan</div>
+                        <div class="fs-4 fw-bold mt-2">Rp <?= number_format($pengembangan_masjid, 0, ',', '.' )?></div>
+                        <i class="bi bi-bricks icon-bg"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
     <div class="container mb-5">
         <div class="row g-4">
             
             <div class="col-lg-8">
-                <div class="card shadow-sm border-0">
-                    <div class="card-header bg-white py-3">
+                <div class="card shadow-sm border-0 h-100 rounded-3 overflow-hidden">
+                    <div class="card-header bg-white py-3 border-bottom">
                         <h5 class="mb-0 fw-bold text-success"><i class="bi bi-journal-text me-2"></i>Riwayat Transaksi Terakhir</h5>
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive">
                             <table class="table table-striped table-hover mb-0 align-middle">
-                                <thead class="table-success">
+                                <thead class="bg-success text-white">
                                     <tr>
                                         <th>Tanggal</th>
                                         <th>Kategori</th>
@@ -132,32 +194,34 @@ $q_pengembangan = $konek->query("SELECT * FROM pengembangan");
                                 </thead>
                                 <tbody>
                                     <?php
-                                    // Query 10 Data Terakhir
                                     $q_tabel = $konek->query("SELECT * FROM transaksi ORDER BY tanggal DESC LIMIT 10");
-                                    
                                     while($d = mysqli_fetch_array($q_tabel)){
                                         $id = $d['sub_kategori_id'];
                                         $q_kat = $konek->query("SELECT * FROM sub_kategori WHERE id='$id'");
-                                        $kat   = mysqli_fetch_array($q_kat);
-                                        $nama  = $kat['nama_sub_kategori']; 
-                                        $jenis = $kat['jenis'];
+                                        
+                                        if($q_kat && mysqli_num_rows($q_kat) > 0) {
+                                            $kat   = mysqli_fetch_array($q_kat);
+                                            $nama  = $kat['nama_sub_kategori']; 
+                                            $jenis = $kat['jenis'];
+                                        } else {
+                                            $nama = "Kategori Terhapus";
+                                            $jenis = "unknown";
+                                        }
                                     ?>
                                     <tr>
-                                        <td><?= date('d M Y', strtotime($d['tanggal'])) ?></td>
+                                        <td class="small"><?= date('d M Y', strtotime($d['tanggal'])) ?></td>
                                         <td>
                                             <?php if($jenis == 'masuk'){ ?>
-                                                <span class="badge bg-success"><?= $nama ?></span>
+                                                <span class="badge rounded-pill bg-success bg-opacity-10 text-success"><?= $nama ?></span>
                                             <?php } else { ?>
-                                                <span class="badge bg-danger"><?= $nama ?></span>
+                                                <span class="badge rounded-pill bg-danger bg-opacity-10 text-danger"><?= $nama ?></span>
                                             <?php } ?>
                                         </td>
-                                        <td><?= $d['keterangan'] ?></td>
-                                        
-                                        <td class="text-end text-success">
+                                        <td class="small text-muted"><?= $d['keterangan'] ?></td>
+                                        <td class="text-end fw-bold text-success">
                                             <?php if($jenis == 'masuk') echo "Rp " . number_format($d['jumlah']); else echo "-"; ?>
                                         </td>
-                                        
-                                        <td class="text-end text-danger">
+                                        <td class="text-end fw-bold text-danger">
                                             <?php if($jenis == 'keluar') echo "Rp " . number_format($d['jumlah']); else echo "-"; ?>
                                         </td>
                                     </tr>
@@ -166,39 +230,49 @@ $q_pengembangan = $konek->query("SELECT * FROM pengembangan");
                             </table>
                         </div>
                     </div>
-                        <div class="card-footer text-center bg-light">
-                            <small class="d-block text-muted mb2">Hanya menampilkan 10 aktivitas terakhir</small>
-                            ><a href="riwayat_transaksi.php">lihat selengkapnya</a><
-                        </div>
+                    <div class="card-footer text-center bg-white border-top">
+                        <a href="riwayat_transaksi.php" class="text-decoration-none fw-bold text-success">Lihat Selengkapnya <i class="bi bi-arrow-right"></i></a>
+                    </div>
                 </div>
             </div>
 
             <div class="col-lg-4">
-                <div class="card shadow-sm border-0 h-100">
-                    <div class="card-header bg-warning text-dark fw-bold">
-                        <i class="bi bi-pie-chart-fill me-2"></i> Statistik Keuangan
+                <div class="row g-4">
+                    <div class="col-12">
+                        <div class="card shadow-sm border-0 rounded-3">
+                            <div class="card-header bg-white py-3">
+                                <h6 class="mb-0 fw-bold text-dark"><i class="bi bi-pie-chart-fill me-2 text-warning"></i>Statistik Keuangan</h6>
+                            </div>
+                            <div class="card-body" style="height: 250px;">
+                                <canvas id="myChart"></canvas>
+                            </div>
+                            <div class="card-footer bg-white text-center border-0">
+                                <button onclick="window.print()" class="btn btn-outline-secondary btn-sm rounded-pill">
+                                    <i class="bi bi-printer me-1"></i> Cetak Laporan
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body d-flex auto">
-                        <canvas id="myChart"></canvas>
+
+                    <div class="col-12">
+                        <div class="card shadow-sm border-0 rounded-3">
+                            <div class="card-header bg-white py-3">
+                                <h6 class="mb-0 fw-bold text-dark"><i class="bi bi-bar-chart-fill me-2 text-info"></i>Statistik Pengembangan</h6>
+                            </div>
+                            <div class="card-body" style="height: 200px;">
+                                <canvas id="chartPengembangan"></canvas>
+                            </div>
+                        </div>
                     </div>
-                <div class="text-center mt-3">
-                    <button onclick="window.print()" class="btn btn-outline-success btn-sm">
-                        <i class="bi bi-printer"></i> Cetak Grafik Pemasukan & Pengeluaran
-                    </button>
-                </div>
-                <div class="mt-4">
-                    <canvas id="chartPengembangan"></canvas>
-                </div>
-                <div class="text-center mt-3 mb-3">
-                    <button onclick="window.print()" class="btn btn-outline-success btn-sm">
-                        <i class="bi bi-printer"></i> Cetak Grafik Dana Pengembangan
-                    </button>
                 </div>
             </div>
 
-        </div> </div> <footer class="bg-dark text-white text-center py-3 mt-auto">
+        </div> 
+    </div>
+
+    <footer class="bg-dark text-white text-center py-4 mt-auto">
         <div class="container">
-            <small>&copy; 2025 Masjid Al-Ikhlas. Dibuat dengan PHP Native.</small>
+            <small class="opacity-75">&copy; 2025 Masjid Al-Ikhlas. Dibuat dengan PHP Native.</small>
         </div>
     </footer>
 
@@ -207,52 +281,62 @@ $q_pengembangan = $konek->query("SELECT * FROM pengembangan");
 
     <script>
       const ctx = document.getElementById('myChart');
-
       new Chart(ctx, {
-        type: 'bar', // Saya ganti ke Bar (Batang) biar lebih jelas dibanding Line
+        type: 'bar',
         data: {
           labels: ['Pemasukan', 'Pengeluaran'],
           datasets: [{
             label: 'Total Rupiah',
-            data: [<?= $total_masuk ?>, <?= $total_keluar ?>,<?=$pengembangan_masjid?>],
+            data: [<?= $total_masuk ?>, <?= $total_keluar ?>],
             backgroundColor: [
-              '#198754', // Hijau
-              '#dc3545',  // Merah
-
+              'rgba(25, 135, 84, 0.8)', 
+              'rgba(220, 53, 69, 0.8)'  
             ],
-            borderWidth: 1
-            }]
+            borderColor: [
+                '#198754',
+                '#dc3545'
+            ],
+            borderWidth: 1,
+            borderRadius: 5
+          }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
             scales: {
-                y: {
-                    beginAtZero: true
-                }
+                y: { beginAtZero: true, grid: { borderDash: [2, 4] } },
+                x: { grid: { display: false } }
             }
         }
       });
-      const ctx2 = document.getElementById('chartPengembangan');
 
+      const ctx2 = document.getElementById('chartPengembangan');
       new Chart(ctx2, {
         type: 'bar',
         data: {
             labels: ['Dana Pengembangan'],
             datasets: [{
-            label: 'Total Dana Pengembangan',
+            label: 'Total Terkumpul',
             data: [<?= $pengembangan_masjid ?>],
-            backgroundColor: ['#ffc107'], // warna kuning
-            borderWidth: 1
+            backgroundColor: ['rgba(255, 193, 7, 0.8)'], 
+            borderColor: ['#ffc107'],
+            borderWidth: 1,
+            borderRadius: 5,
+            barThickness: 50 
         }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
             scales: {
-                y: {
-                    beginAtZero: true
-                }
+                y: { beginAtZero: true, grid: { borderDash: [2, 4] } },
+                x: { grid: { display: false } }
             }
         }
       });
