@@ -1,30 +1,50 @@
 <?php
 require_once "config.php"; 
 
-$total_masuk = 0;
-$total_keluar = 0;
-$pengembangan_masjid = 0;
+$bulan_ini = date('m'); 
+$tahun_ini = date('Y'); 
+$nama_bulan = [
+    '01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April',
+    '05' => 'Mei',     '06' => 'Juni',     '07' => 'Juli',  '08' => 'Agustus',
+    '09' => 'September','10' => 'Oktober', '11' => 'November','12' => 'Desember'
+];
+$label_bulan = $nama_bulan[$bulan_ini] . " " . $tahun_ini;
 
-$qsaldo = $konek->query("SELECT * FROM transaksi");
-while ($row = mysqli_fetch_array($qsaldo)){
-    $idkat = $row['sub_kategori_id'];
-    $qkat = $konek->query("SELECT * FROM sub_kategori WHERE id='$idkat'");
-    
-    if($qkat && mysqli_num_rows($qkat) > 0){
-        $dkat = mysqli_fetch_array($qkat);
-        if ($dkat['jenis'] == 'masuk'){
-            $total_masuk += $row['jumlah'];
-        } else {
-            $total_keluar += $row['jumlah'];
-        }
-    }
-}
-$saldo_akhir = $total_masuk - $total_keluar;
 
-$q_pengembangan = $konek->query("SELECT * FROM pengembangan");
-while ($row_peng = mysqli_fetch_array($q_pengembangan)){
-    $pengembangan_masjid += $row_peng['jumlah']; 
+
+$query_masuk_bln = "SELECT SUM(jumlah) AS total FROM transaksi 
+                    WHERE sub_kategori_id IN (SELECT id FROM sub_kategori WHERE jenis = 'masuk')
+                    AND MONTH(tanggal) = '$bulan_ini' AND YEAR(tanggal) = '$tahun_ini'";
+$d_masuk = mysqli_fetch_assoc($konek->query($query_masuk_bln));
+$total_masuk = $d_masuk['total'] ?? 0;
+
+$query_keluar_bln = "SELECT SUM(jumlah) AS total FROM transaksi 
+                     WHERE sub_kategori_id IN (SELECT id FROM sub_kategori WHERE jenis = 'keluar')
+                     AND MONTH(tanggal) = '$bulan_ini' AND YEAR(tanggal) = '$tahun_ini'";
+$d_keluar = mysqli_fetch_assoc($konek->query($query_keluar_bln));
+$total_keluar = $d_keluar['total'] ?? 0;
+
+
+$q_all_masuk = "SELECT SUM(jumlah) AS total FROM transaksi 
+                WHERE sub_kategori_id IN (SELECT id FROM sub_kategori WHERE jenis = 'masuk')";
+$all_masuk = mysqli_fetch_assoc($konek->query($q_all_masuk))['total'] ?? 0;
+
+$q_all_keluar = "SELECT SUM(jumlah) AS total FROM transaksi 
+                 WHERE sub_kategori_id IN (SELECT id FROM sub_kategori WHERE jenis = 'keluar')";
+$all_keluar = mysqli_fetch_assoc($konek->query($q_all_keluar))['total'] ?? 0;
+
+$saldo_akhir = $all_masuk - $all_keluar;
+
+if ($saldo_akhir < 0) {
+    $saldo_akhir = 0;
 }
+
+
+$query_pengembangan = "SELECT SUM(CASE WHEN jenis = 'setor' THEN jumlah ELSE -jumlah END) AS total 
+                       FROM pengembangan";
+$d_pengembangan = mysqli_fetch_assoc($konek->query($query_pengembangan));
+$pengembangan_masjid = $d_pengembangan['total'] ?? 0;
+
 ?>
 
 <!DOCTYPE html>
@@ -45,9 +65,7 @@ while ($row_peng = mysqli_fetch_array($q_pengembangan)){
             --card-gold: linear-gradient(135deg, #d97706 0%, #78350f 100%);
         }
 
-        body {
-            background-color: #f4f6f9;
-        }
+        body { background-color: #f4f6f9; }
 
         .hero-section {
             background: url('assets/img/masjidku.jpg');
@@ -61,13 +79,9 @@ while ($row_peng = mysqli_fetch_array($q_pengembangan)){
             position: relative;
         }
 
-        .hero-section h2, .hero-section p {
-            text-shadow: 0px 2px 4px rgba(0,0,0,0.6);
-        }
+        .hero-section h2, .hero-section p { text-shadow: 0px 2px 4px rgba(0,0,0,0.6); }
 
-        .stats-container {
-            margin-top: -80px; 
-        }
+        .stats-container { margin-top: -80px; }
 
         .card-stat {
             border: none;
@@ -109,7 +123,6 @@ while ($row_peng = mysqli_fetch_array($q_pengembangan)){
         <div class="container">
         <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
             <img src="assets/img/Masjid logo.jpeg" alt="Logo Masjid" width="40" height="40" class="d-inline-block align-text-top me-2" style="border-radius: 50%">
-            
             MASJID AL-IKHLAS
         </a>
             <div class="ms-auto">
@@ -132,7 +145,7 @@ while ($row_peng = mysqli_fetch_array($q_pengembangan)){
             <div class="col-md-3 col-10">
                 <div class="card card-stat bg-gradient-green shadow">
                     <div class="card-body p-4">
-                        <div class="small text-white-50 text-uppercase fw-bold ls-1">Total Pemasukan</div>
+                        <div class="small text-white-50 text-uppercase fw-bold ls-1">Pemasukan (<?= $label_bulan ?>)</div>
                         <div class="fs-4 fw-bold mt-2">Rp <?= number_format($total_masuk, 0, ',', '.' )?></div>
                         <i class="bi bi-arrow-down-circle-fill icon-bg"></i>
                     </div>
@@ -142,7 +155,7 @@ while ($row_peng = mysqli_fetch_array($q_pengembangan)){
             <div class="col-md-3 col-10">
                 <div class="card card-stat bg-gradient-red shadow">
                     <div class="card-body p-4">
-                        <div class="small text-white-50 text-uppercase fw-bold ls-1">Total Pengeluaran</div>
+                        <div class="small text-white-50 text-uppercase fw-bold ls-1">Pengeluaran (<?= $label_bulan ?>)</div>
                         <div class="fs-4 fw-bold mt-2">Rp <?= number_format($total_keluar, 0, ',', '.' )?></div>
                         <i class="bi bi-arrow-up-circle-fill icon-bg"></i>
                     </div>
@@ -286,7 +299,7 @@ while ($row_peng = mysqli_fetch_array($q_pengembangan)){
         data: {
           labels: ['Pemasukan', 'Pengeluaran'],
           datasets: [{
-            label: 'Total Rupiah',
+            label: 'Total Rupiah (Bulan Ini)', // Label diperjelas agar user tau ini data bulanan
             data: [<?= $total_masuk ?>, <?= $total_keluar ?>],
             backgroundColor: [
               'rgba(25, 135, 84, 0.8)', 
