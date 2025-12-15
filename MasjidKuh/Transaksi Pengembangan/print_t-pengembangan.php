@@ -97,12 +97,12 @@ if($id_user > 0){
             $total_masuk = 0;
             $total_keluar = 0;
 
-            $query = $konek->query("SELECT * FROM pengembangan WHERE tanggal BETWEEN '$tgl_awal' AND '$tgl_akhir' ORDER BY tanggal ASC");
+            $query = $konek->query("SELECT * FROM transaksi_pengembangan WHERE tanggal BETWEEN '$tgl_awal' AND '$tgl_akhir' ORDER BY tanggal ASC");
 
             foreach($query as $d){
                 
                 $id_kat = $d['id'];
-                $d_kat  = $konek->query("SELECT * FROM pengembangan WHERE id='$id_kat'")->fetch_assoc();
+                $d_kat  = $konek->query("SELECT * FROM transaksi_pengembangan WHERE id='$id_kat'")->fetch_assoc();
 
                 $nama_kat = $d_kat['keterangan'] ?? '-';
                 $jenis    = $d_kat['jenis'] ?? '';
@@ -110,7 +110,7 @@ if($id_user > 0){
                 $masuk = 0;
                 $keluar = 0;
 
-                if($jenis == 'setor'){
+                if($jenis == 'Masuk'){
                     $masuk = $d['jumlah'];
                     $total_masuk += $masuk;
                 } else {

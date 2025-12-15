@@ -169,6 +169,7 @@ if (!isset(($_SESSION['user'])) or $_SESSION['level'] != 'admin'){
             <!--begin::Sidebar Menu-->
             <ul
               class="nav sidebar-menu flex-column"
+              style="width: fit-content;"
               data-lte-toggle="treeview"
               role="menu"
               data-accordion="false"
@@ -184,29 +185,43 @@ if (!isset(($_SESSION['user'])) or $_SESSION['level'] != 'admin'){
 
               <li class="nav-item">
                 <a href="./?p=PG" class="nav-link">
+                  <i class="nav-icon bi bi-book"></i>
+                  <p>Program Pengembangan</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="./?p=TP" class="nav-link">
                   <i class="nav-icon bi bi-bank2"></i>
-                  <p>Pengembangan Masjid</p>
+                  <p>Transaksi Pengembangan</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="./?p=TS" class="nav-link">
                   <i class="nav-icon bi bi-wallet"></i>
-                  <p>Transaksi</p>
+                  <p>Transaksi Umum</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="./?p=LP" class="nav-link">
                   <i class="nav-icon bi bi-file-earmark-text"></i>
-                  <p>Laporan</p>
+                  <p>Laporan Keuangan</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="./?p=KT" class="nav-link">
                   <i class="nav-icon bi bi-tags"></i>
-                  <p>Kategori</p>
+                  <p>Katalog Kategori</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="./?p=DN" class="nav-link">
+                  <i class="nav-icon bi bi-person"></i>
+                  <p>Daftar Donatur</p>
                 </a>
               </li>
 

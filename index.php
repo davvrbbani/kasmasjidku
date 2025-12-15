@@ -41,7 +41,7 @@ if ($saldo_akhir < 0) {
 
 
 $query_pengembangan = "SELECT SUM(CASE WHEN jenis = 'setor' THEN jumlah ELSE -jumlah END) AS total 
-                       FROM pengembangan";
+                       FROM transaksi_pengembangan";
 $d_pengembangan = mysqli_fetch_assoc($konek->query($query_pengembangan));
 $pengembangan_masjid = $d_pengembangan['total'] ?? 0;
 

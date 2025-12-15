@@ -9,19 +9,31 @@ switch ($p) {
         require_once "Laporan/laporan_print.php";
         break;
     case 'PG':
-        require_once "Pengembangan/pengembangan.php";
+        require_once "Program Pengembangan/p-pengembangan.php";
         break;
     case 'add_pg':
-        require_once "Pengembangan/add_pengembangan.php";
+        require_once "Program Pengembangan/add_p-pengembangan.php";
         break;
     case 'edit_pg':
-        require_once "Pengembangan/edit_pengembangan.php";
+        require_once "Program Pengembangan/edit_p-pengembangan.php";
         break;
-    case 'hapus_pg':
-        require_once "Pengembangan/hapus_pengembangan.php";
+    case 'hps_pg':
+        require_once "Program Pengembangan/hapus_p-pengembangan.php";
         break;
-        case'prpg':
-        require_once "Pengembangan/pengembangan_print.php";
+    case 'TP':
+        require_once "Transaksi Pengembangan/t-pengembangan.php";
+        break;
+    case 'add_tp':
+        require_once "Transaksi Pengembangan/add_t-pengembangan.php";
+        break;
+    case 'edit_tp':
+        require_once "Transaksi Pengembangan/edit_t-pengembangan.php";
+        break;
+    case 'hps_tp':
+        require_once "Transaksi Pengembangan/hapus_t-pengembangan.php";
+        break;
+    case 'prtp':
+        require_once "Transaksi Pengembangan/print_t-pengembangan.php";
         break;
     case 'TS':
         require_once "Transaksi/transaksi.php";
@@ -49,6 +61,18 @@ switch ($p) {
         break;
     case 'hps_kat':
         require_once "Kategori/hps_kategori.php";
+        break;
+    case 'DN':
+        require_once "Donatur/donatur.php";
+        break;
+    case 'add_dn':
+        require_once "Donatur/add_donatur.php";
+        break;
+    case 'edit_dn':
+        require_once "Donatur/edit_donatur.php";
+        break;
+    case 'hps_dn':
+        require_once "Donatur/hapus_donatur.php";
         break;
     default:
     require_once "dashboard.php";

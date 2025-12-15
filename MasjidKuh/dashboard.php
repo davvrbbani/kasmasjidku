@@ -39,8 +39,8 @@ if ($saldo_akhir < 0) {
 }
 
 
-$query_pengembangan = "SELECT SUM(CASE WHEN jenis = 'setor' THEN jumlah ELSE -jumlah END) AS total 
-                       FROM pengembangan";
+$query_pengembangan = "SELECT SUM(CASE WHEN jenis = 'Masuk' THEN jumlah ELSE -jumlah END) AS total 
+                       FROM transaksi_pengembangan";
 $d_pengembangan = mysqli_fetch_assoc($konek->query($query_pengembangan));
 $saldo_pengembangan = $d_pengembangan['total'] ?? 0;
 
@@ -99,10 +99,10 @@ $saldo_pengembangan = $d_pengembangan['total'] ?? 0;
 
                 <div class="col-lg-3 col-6">
                     <div class="card text-dark bg-warning mb-3">
-                        <div class="card-header">Saldo Pembangunan</div>
+                        <div class="card-header">Saldo Pengembangan Masjid</div>
                         <div class="card-body">
                             <h4 class="card-title fw-bold">Rp <?= number_format($saldo_pengembangan, 0, ',', '.') ?></h4>
-                            <p class="card-text"><small>Total Aset Terkumpul</small></p>
+                            <p class="card-text"><small>Total Saldo/Aset</small></p>
                         </div>
                     </div>
                 </div>
