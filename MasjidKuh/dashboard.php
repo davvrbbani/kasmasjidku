@@ -96,10 +96,7 @@ foreach ($q_tab as $tb) {
               <h4 class="card-title fw-bold">Rp <?= number_format($saldo_pengembangan, 0, ',', '.') ?></h4>
               <p class="card-text"><small>Aset di Rekening</small></p>
 
-            <div class="card-header">Sisa Dana Pengembangan</div>
-            <div class="card-body">
-              <h4 class="card-title fw-bold">Rp <?= number_format($saldo_tabungan, 0, ',', '.') ?></h4>
-              <p class="card-text" ><small>Total Dana</small></p>
+            
 
             </div>
           </div>
