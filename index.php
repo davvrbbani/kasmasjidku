@@ -40,11 +40,15 @@ if ($saldo_akhir < 0) {
 }
 
 
-$query_pengembangan = "SELECT SUM(CASE WHEN jenis = 'setor' THEN jumlah ELSE -jumlah END) AS total 
+$query_pengembangan = "SELECT SUM(CASE WHEN jenis = 'Masuk' THEN jumlah ELSE -jumlah END) AS total 
                        FROM transaksi_pengembangan";
+
 $d_pengembangan = mysqli_fetch_assoc($konek->query($query_pengembangan));
 $pengembangan_masjid = $d_pengembangan['total'] ?? 0;
 
+if ($pengembangan_masjid < 0) {
+    $pengembangan_masjid = 0;
+}
 ?>
 
 <!DOCTYPE html>
@@ -260,9 +264,9 @@ $pengembangan_masjid = $d_pengembangan['total'] ?? 0;
                                 <canvas id="myChart"></canvas>
                             </div>
                             <div class="card-footer bg-white text-center border-0">
-                                <button onclick="window.print()" class="btn btn-outline-secondary btn-sm rounded-pill">
+                                <a href = "cetaklaporan.php" class="btn btn-outline-secondary btn-sm rounded-pill">
                                     <i class="bi bi-printer me-1"></i> Cetak Laporan
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
