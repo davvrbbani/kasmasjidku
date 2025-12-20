@@ -8,18 +8,25 @@ $tgl_akhir = $_POST['tgl_akhir'] ?? date('Y-m-d');
 
 $keyword = $_POST['keyword'] ?? '';
 
-if (!empty($keyword)) {
-  $data = $konek->query("SELECT * FROM transaksi_pengembangan WHERE keterangan LIKE '%$keyword%' ORDER BY tanggal DESC");
-} else {
-  $data = $konek->query("
+$keyword = $_POST['keyword'] ?? '';
+
+$sql = "
     SELECT 
         tp.*,
         d.nama_donatur
     FROM transaksi_pengembangan tp
     LEFT JOIN donatur d ON tp.id_donatur = d.id
-    ORDER BY tp.tanggal DESC
-");
+    WHERE tp.tanggal BETWEEN '$tgl_awal' AND '$tgl_akhir'
+";
+
+if (!empty($keyword)) {
+  $sql .= " AND tp.keterangan LIKE '%$keyword%'";
 }
+
+$sql .= " ORDER BY tp.tanggal DESC";
+
+$data = $konek->query($sql);
+
 
 $q_saldo = $konek->query("SELECT * FROM transaksi_pengembangan");
 $total = 0;
@@ -80,6 +87,23 @@ foreach ($q_saldo as $row) {
                 <label class="form-label fw-bold">Sampai Tanggal</label>
                 <input type="date" name="tgl_akhir" class="form-control" value="<?= $tgl_akhir; ?>" required>
               </div>
+              <div class="col-md-4 mb-3 mb-md-0">
+                <label class="form-label fw-bold">Cari</label>
+
+                <div class="d-flex gap-2">
+                  <input
+                    type="text"
+                    name="keyword"
+                    class="form-control"
+                    placeholder="Masukkan keterangan..."
+                    value="<?= htmlspecialchars($keyword); ?>">
+
+                  <a href="?p=TP" class="btn btn-secondary">
+                    Reset
+                  </a>
+                </div>
+              </div>
+
               <div class="d-flex justify-content-end align-items-center mt-2">
                 <a href="./?p=add_tp" class="btn btn-success me-2">
                   <i class="bi bi-plus-circle"></i> Tambah Transaksi

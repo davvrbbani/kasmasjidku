@@ -1,121 +1,226 @@
 <?php
-require_once "config.php"; 
+require_once "config.php";
+session_start();
 
-// Ambil bulan dan tahun sekarang
-$bulan_ini = date('m'); 
-$tahun_ini = date('Y'); 
+$bulan_ini = date('m');
+$tahun_ini = date('Y');
+
 $nama_bulan = [
-    '01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April',
-    '05' => 'Mei',     '06' => 'Juni',     '07' => 'Juli',  '08' => 'Agustus',
-    '09' => 'September','10' => 'Oktober', '11' => 'November','12' => 'Desember'
+    '01' => 'Januari',
+    '02' => 'Februari',
+    '03' => 'Maret',
+    '04' => 'April',
+    '05' => 'Mei',
+    '06' => 'Juni',
+    '07' => 'Juli',
+    '08' => 'Agustus',
+    '09' => 'September',
+    '10' => 'Oktober',
+    '11' => 'November',
+    '12' => 'Desember'
 ];
-$label_bulan = $nama_bulan[$bulan_ini] . " " . $tahun_ini;
 
-// Hitung pemasukan bulan ini
-$query_masuk_bln = "SELECT SUM(jumlah) AS total FROM transaksi 
-                    WHERE sub_kategori_id IN (SELECT id FROM sub_kategori WHERE jenis = 'masuk')
-                    AND MONTH(tanggal) = '$bulan_ini' AND YEAR(tanggal) = '$tahun_ini'";
-$d_masuk = mysqli_fetch_assoc($konek->query($query_masuk_bln));
-$total_masuk = $d_masuk['total'] ?? 0;
+$label_periode = $nama_bulan[$bulan_ini] . " " . $tahun_ini;
 
-// Hitung pengeluaran bulan ini
-$query_keluar_bln = "SELECT SUM(jumlah) AS total FROM transaksi 
-                     WHERE sub_kategori_id IN (SELECT id FROM sub_kategori WHERE jenis = 'keluar')
-                     AND MONTH(tanggal) = '$bulan_ini' AND YEAR(tanggal) = '$tahun_ini'";
-$d_keluar = mysqli_fetch_assoc($konek->query($query_keluar_bln));
-$total_keluar = $d_keluar['total'] ?? 0;
+$id_user = $_SESSION['users_id'] ?? 0;
+$nama_bendahara = "Administrator";
 
-// Saldo akhir
-$q_all_masuk = "SELECT SUM(jumlah) AS total FROM transaksi 
-                WHERE sub_kategori_id IN (SELECT id FROM sub_kategori WHERE jenis = 'masuk')";
-$all_masuk = mysqli_fetch_assoc($konek->query($q_all_masuk))['total'] ?? 0;
-
-$q_all_keluar = "SELECT SUM(jumlah) AS total FROM transaksi 
-                 WHERE sub_kategori_id IN (SELECT id FROM sub_kategori WHERE jenis = 'keluar')";
-$all_keluar = mysqli_fetch_assoc($konek->query($q_all_keluar))['total'] ?? 0;
-
-$saldo_akhir = max($all_masuk - $all_keluar, 0);
-
-// Dana pengembangan
-$query_pengembangan = "SELECT SUM(CASE WHEN jenis = 'setor' THEN jumlah ELSE -jumlah END) AS total 
-                       FROM transaksi_pengembangan";
-$d_pengembangan = mysqli_fetch_assoc($konek->query($query_pengembangan));
-$pengembangan_masjid = $d_pengembangan['total'] ?? 0;
+if ($id_user > 0) {
+    $q_user = $konek->query("SELECT nama_lengkap FROM users WHERE id='$id_user'");
+    if ($q_user && $q_user->num_rows > 0) {
+        $nama_bendahara = $q_user->fetch_assoc()['nama_lengkap'];
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cetak Laporan Keuangan Masjid</title>
+    <title>Laporan Keuangan Masjid Al-Ikhlas</title>
+
     <style>
-        body { font-family: Arial, sans-serif; font-size: 14px; margin: 20px; color: #000; }
-        h2 { text-align: center; margin-bottom: 5px; }
-        p { text-align: center; margin-top: 0; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        th, td { border: 1px solid #000; padding: 6px 8px; text-align: left; }
-        th { background-color: #f0f0f0; }
-        .text-right { text-align: right; }
-        .summary { margin-bottom: 30px; }
-        .summary div { margin: 5px 0; }
         @media print {
-            button { display: none; } /* sembunyikan tombol saat print */
+            @page {
+                size: A4;
+                margin: 2cm;
+            }
+
+            body {
+                margin: 0;
+            }
+        }
+
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 12pt;
+            color: #000;
+        }
+
+        /* KOP */
+        .table-kop {
+            width: 100%;
+            border-bottom: 4px double #000;
+            margin-bottom: 20px;
+        }
+
+        .table-kop td {
+            border: none;
+            vertical-align: middle;
+        }
+
+        .logo {
+            width: 100px;
+        }
+
+        /* TABEL */
+        .table-laporan {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-laporan th,
+        .table-laporan td {
+            border: 1px solid #000;
+            padding: 8px;
+        }
+
+        .table-laporan thead {
+            background: #e9ecef;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
         }
     </style>
 </head>
+
 <body>
 
-    <h2>Laporan Keuangan Masjid Al-Ikhlas</h2>
-    <p><?= $label_bulan ?></p>
-
-    <div class="summary">
-        <div><strong>Total Pemasukan Bulan Ini:</strong> Rp <?= number_format($total_masuk, 0, ',', '.') ?></div>
-        <div><strong>Total Pengeluaran Bulan Ini:</strong> Rp <?= number_format($total_keluar, 0, ',', '.') ?></div>
-        <div><strong>Saldo Kas Saat Ini:</strong> Rp <?= number_format($saldo_akhir, 0, ',', '.') ?></div>
-        <div><strong>Dana Pengembangan:</strong> Rp <?= number_format($pengembangan_masjid, 0, ',', '.') ?></div>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Tanggal</th>
-                <th>Kategori</th>
-                <th>Keterangan</th>
-                <th class="text-right">Masuk</th>
-                <th class="text-right">Keluar</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $q_tabel = $konek->query("SELECT * FROM transaksi ORDER BY tanggal DESC LIMIT 20");
-            while($d = mysqli_fetch_array($q_tabel)){
-                $id = $d['sub_kategori_id'];
-                $q_kat = $konek->query("SELECT * FROM sub_kategori WHERE id='$id'");
-                
-                if($q_kat && mysqli_num_rows($q_kat) > 0) {
-                    $kat   = mysqli_fetch_array($q_kat);
-                    $nama  = $kat['nama_sub_kategori']; 
-                    $jenis = $kat['jenis'];
-                } else {
-                    $nama = "Kategori Terhapus";
-                    $jenis = "unknown";
-                }
-            ?>
-            <tr>
-                <td><?= date('d M Y', strtotime($d['tanggal'])) ?></td>
-                <td><?= $nama ?></td>
-                <td><?= $d['keterangan'] ?></td>
-                <td class="text-right"><?= $jenis == 'masuk' ? "Rp " . number_format($d['jumlah']) : "-" ?></td>
-                <td class="text-right"><?= $jenis == 'keluar' ? "Rp " . number_format($d['jumlah']) : "-" ?></td>
-            </tr>
-            <?php } ?>
-        </tbody>
+    <!-- KOP SURAT -->
+    <table class="table-kop">
+        <tr>
+            <td>
+                <h2 style="margin:0;font-size:24pt;">MASJID AL-IKHLAS</h2>
+                <p style="margin:5px 0 0;">Jl. MT. Haryono, Desa Karangsentul, Padamara</p>
+                <p style="margin:0;font-size:11pt;font-style:italic;">
+                    Telp: 0812-3456-7890 | Email: dkm@alikhlas.com
+                </p>
+            </td>
+            <td style="text-align: right;">
+                <img src="assets/img/Masjid logo.jpeg" class="logo">
+            </td>
+        </tr>
     </table>
 
-    <div style="text-align: center;">
-        <button onclick="window.print()">Cetak Laporan</button>
+    <!-- JUDUL -->
+    <div class="text-center">
+        <h3 style="text-decoration:underline;margin-bottom:5px;">
+            LAPORAN KEUANGAN KAS
+        </h3>
+        <p>Periode: <?= $label_periode ?></p>
     </div>
 
+    <!-- TABEL DATA -->
+    <table class="table-laporan">
+        <thead>
+            <tr class="text-center">
+                <th width="5%">No</th>
+                <th width="15%">Tanggal</th>
+                <th>Kategori / Keterangan</th>
+                <th width="20%">Pemasukan</th>
+                <th width="20%">Pengeluaran</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <?php
+            $no = 1;
+            $total_masuk = 0;
+            $total_keluar = 0;
+
+            $q = $konek->query("
+    SELECT t.*, s.nama_sub_kategori, s.jenis
+    FROM transaksi t
+    LEFT JOIN sub_kategori s ON t.sub_kategori_id = s.id
+    WHERE MONTH(tanggal)='$bulan_ini' AND YEAR(tanggal)='$tahun_ini'
+    ORDER BY tanggal ASC
+");
+
+            if ($q->num_rows > 0) {
+                while ($d = $q->fetch_assoc()) {
+                    $masuk = $keluar = 0;
+
+                    if ($d['jenis'] == 'masuk') {
+                        $masuk = $d['jumlah'];
+                        $total_masuk += $masuk;
+                    } else {
+                        $keluar = $d['jumlah'];
+                        $total_keluar += $keluar;
+                    }
+            ?>
+                    <tr>
+                        <td class="text-center"><?= $no++ ?></td>
+                        <td class="text-center"><?= date('d/m/Y', strtotime($d['tanggal'])) ?></td>
+                        <td>
+                            <strong><?= $d['nama_sub_kategori'] ?? '-' ?></strong><br>
+                            <span style="font-size:10pt;font-style:italic;">
+                                <?= $d['keterangan'] ?>
+                            </span>
+                        </td>
+                        <td class="text-right"><?= $masuk ? number_format($masuk, 0, ',', '.') : '-' ?></td>
+                        <td class="text-right"><?= $keluar ? number_format($keluar, 0, ',', '.') : '-' ?></td>
+                    </tr>
+                <?php }
+            } else { ?>
+                <tr>
+                    <td colspan="5" class="text-center">Tidak ada data transaksi</td>
+                </tr>
+            <?php } ?>
+        </tbody>
+
+        <tfoot>
+            <tr style="font-weight:bold;">
+                <td colspan="3" class="text-center">TOTAL</td>
+                <td class="text-right">Rp <?= number_format($total_masuk, 0, ',', '.') ?></td>
+                <td class="text-right">Rp <?= number_format($total_keluar, 0, ',', '.') ?></td>
+            </tr>
+            <tr style="font-weight:bold;background:#343a40;color:white;">
+                <td colspan="3" class="text-center">SALDO AKHIR</td>
+                <td colspan="2" class="text-center" style="font-size:14pt;">
+                    Rp <?= number_format($total_masuk - $total_keluar, 0, ',', '.') ?>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <!-- TTD -->
+    <div style="margin-top:60px;">
+        <table width="100%">
+            <tr>
+                <td width="70%"></td>
+                <td width="30%" class="text-center">
+                    <p>
+                        Purbalingga, <?= date('d F Y') ?><br>
+                        Bendahara Masjid
+                    </p>
+                    <br><br><br>
+                    <p style="font-weight:bold;text-decoration:underline;">
+                        <?= strtoupper($nama_bendahara) ?>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        window.print();
+    </script>
 </body>
+
 </html>
